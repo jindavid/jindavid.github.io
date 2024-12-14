@@ -113,7 +113,7 @@ To explore this concept, we examine a representative model in this category: the
 
 Figure 4 presents the mathematical formulation of the forward and backward processes in the Lévy-Itō Model (LIM). The forward process in LIM is governed by the following stochastic differential equation:
 
-\\[ d \vec{X}_t = b \left(t, \vec{X}_{t-}\right) d t + \sigma_L(t) d L_t^\alpha, \\]
+\\[ d X_t = b \left(t, X_{t-}\right) d t + \sigma_L(t) d L_t^\alpha, \\]
 
 where $b$ is the drift term, $\sigma_L$ is the variance schedule, and $L_t^\alpha$ represents an $\alpha$-stable Lévy process. Conversely, the backward process can be expressed as:
 
