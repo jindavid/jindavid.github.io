@@ -10,27 +10,54 @@ comments : True
 # The Effects of Non-Gaussian Noise in Diffusion Models: A Systematic Study
 
 ## Introduction
+In its broadest sense, generative modeling addresses the statistical challenge of estimating and sampling from an unknown probability distribution given only a finite set of samples. When the target distribution is high-dimensional, this task becomes daunting, and traditional approaches such as Gaussian Mixture Models quickly become computationally infeasible [1]. Modern generative modeling techniques have largely circumvented these limitations by focusing on learning a mapping from a simple base distribution, which is easy to sample from, to the target distribution, approximating this mapping using the available data. The specifics of how this mapping is defined and constructed vary significantly across methods. Over the past decade, several approaches leveraging deep neural networks have emerged, including Variational Autoencoders (VAEs) [2], Generative Adversarial Networks (GANs) [3], Normalizing Flows [4], Denoising Diffusion Probabilistic Models (DDPMs) [5], and Score-Based Diffusion Models (SBMs) [6].
 
-In the broadest sense, generative modeling concerns the statistical problem of estimating and sampling from an unknown probability measure given samples from the measure. However, when the target measure is high-dimensional, such a task can be extremely difficult, and traditional methods such as Gaussian Mixture Models become computationally intractable easily [BN06]. Arguably, the most empirically successful modern technique for tackling this problem is to identify a mapping from a base measure (which is easy to sample from) to the target measure and approximate the mapping with the given samples instead. Exactly how the mapping is constructed and approximated depends on the modeling choice and can be dramatically different. In particular, various methods based on Deep Neural Networks have been proposed in the past decade, including Variational Auto-Encoders, Generative Adversarial Networks, Normalizing Flows, Denoising Diffusion Probabilistic Models (DDPMs), and Score-Based Diffusion Models (SBMs) [SSDK20], just to name a few.
+Among these frameworks, SBMs and DDPMs have achieved remarkable success across a wide range of applications, from image generation and protein design to weather forecasting, robotic manipulation, and climate emulation. SBMs model the mapping from the base to the target distribution as the reverse stochastic differential equation (SDE) of a pre-defined forward Ornstein-Uhlenbeck (OU) process, while DDPMs can be seen as a discrete counterpart of SBMs. In these models, the forward process gradually transforms samples from the target distribution into the base distribution by adding Gaussian noise with specified covariance structures. The reverse process similarly involves adding Gaussian noise to samples from the base distribution, effectively producing samples that mimic the target distribution. However, due to the nature of the OU process, the added noise is inherently Gaussian.
 
-Notably, SBMs model the mapping from the base measure to the target measure as the reverse stochastic differential equation (SDE) of a pre-specified Ornstein-Uhlenbeck (OU) process. DDPMs can be viewed as a specific type of discretized SBMs. Due to the specific choice, the base measure, with no other options, has to be a standard Gaussian. While such a constraint seems not restrictive for many problems, in the context that the targeting measure possesses heavy-tailed (rare and extreme events) or long-tailed (imbalanced datasets) nature, it has been argued in several recent works that limiting ourselves in OU processes and standard Gaussian base measures might not be the best thing to do. In this project, we aim to provide a comprehensive review on this line of works and provide a systematic comparison in terms of their formulations and empirical performance.
+While this Gaussian constraint works well in many scenarios, it can be limiting when the target distribution exhibits heavy-tailed (rare and extreme events) or long-tailed (imbalanced datasets) characteristics. Recent works argue that Gaussian noise, with its square-exponentially decaying tails, inherently biases the generation process toward frequent, central samples in the training data, often underrepresenting rare or extreme samples that are at least equally critical. This limitation in diversity poses challenges in domains where extreme events or class imbalances are naturally present, as observed in various scientific and engineering contexts (e.g., [8]).
 
-The motivations for us to conduct such a study are the following. First off, some works use the same kind of heavy-tailed distributions but arrive at completely different conclusions. For instance, both [PPX24] and [JMFLK23] use $t$-distributions in their models but draw completely opposite conclusions. Second, works that share certain mathematical similarities have not been compared against each other: while [NSA24] formulates the mapping as a rough-path fractional Brownian Motion, [YPKL23, SSD24] use Lévy processes to model the mapping. Last but not least, for the works that we are considering here, at least in the official paper, the intersection of the benchmarks on which they are tested is an empty set: some of them are tested on image data, and some are tested on climate data.
+To address this limitation, recent studies have explored replacing Gaussian noise and Brownian motions with heavy-tailed noise or stochastic processes [7, 12, 13, 14]. While these works report improvements using metrics such as the Fréchet Inception Distance (FID) and Inception Score, these metrics, widely used in image generation tasks, are not particularly suited to assessing whether generative models effectively capture the tails of a distribution. In our view, this represents a significant gap in the current literature.
 
-In summary, we aim to conduct the following systematic comparative studies on these works [DSL22, HSV24, JMFLK23, NRW21, NSA24, PPX24, SSD24, YPKL23]:
+Motivated by this gap, we propose an alternative evaluation framework grounded in mathematical rigor and physical intuition, aimed at better assessing the impact of heavy-tailed noise on capturing rare and extreme events. Our approach consists of four steps: (1) selecting a dataset that naturally exhibits heavy tails, such as ERA5 precipitation data, (2) identifying a physical aggregate quantity that characterizes the heavy-tail phenomenon, such as order statistics, (3) comparing the probability density of this aggregate quantity for both the original dataset and the samples generated by the model, and (4) computing tail-emphasizing statistics, such as those developed in [9, 10], to quantify differences. In particular, we focus on a representative type of heavy-tailed diffusion models, the Lévy-Itō Models, and compare its ability to reproduce the tail events with SBMs when they are both trained on precipitation data. 
 
-1. Review the formulations in reasonable detail for the models proposed in these papers, comment on the similarities shared, and emphasize the differences among them.
-2. Identify one or more suitable datasets and conduct extensive experiments to compare the empirical performances against one another.
+Since this blog prioritizes accessibility over formalism, we focus on intuition and provide sufficient mathematical background for clarity. Rather than claiming that our approach is state-of-the-art, we aim to demonstrate the value of designing evaluation strategies from first principles. We hope this exposition inspires readers to reconsider the ways in which generative models are evaluated, particularly in contexts involving rare and extreme events.
+
+## Problem Statement
+Let $p_0$ be the true distribution that the data comes from, and assume we have access to IID samples $\{x_i\}_{i=1}^n$ from $p_0$. Suppose $p_T$ is a tractable distribution from which samples can be readily drawn. Generative modeling seeks to find a map $\tau$ such that 
+$$
+\tau_\#p_T = p_0
+$$
+where $\tau_\#p_T$ denotes the push-forward distribution of $p_T$ under $\tau$. That is, given a sample $\xi \sim p_T$, we have 
+$$
+\tau(\xi) \sim p_0.
+$$
+Different generative models adopt different methods to model $\tau$.
+
+## Score-Based Diffusion Models
+Score-based diffusion models (SBMs) model $\tau$ through an Ornstein-Uhlenbeck (OU) process as illustrated in Figure 1 [slide #3] (credit to [6]). In essence, SBMs involve a forward process, where each $x_i$ is transformed into a $\xi_i\sim p_T$, and a backward process, where $\xi \sim p_T$ is transformed into $x \sim p_0$. It is worth emphasizing that it is Gaussian noises that are superposed during both processes. A visualization of the OU diffusion process from a bimodal Gaussian to a uni-modal Gaussian in 1-D is provided in Figure 2 [homework].
 
 ## References
 
-- **[BN06]** Christopher M. Bishop and Nasser M. Nasrabadi. _Pattern Recognition and Machine Learning_, volume 4. Springer, 2006.
-- **[DSL22]** Jacob Deasy, Nikola Simidjievski, and Pietro Liò. _Heavy-tailed denoising score matching_, April 2022. arXiv:2112.09788 [cs, stat].
-- **[HSV24]** Xingchang Huang, Corentin Salaun, Cristina Vasconcelos, Christian Theobalt, Cengiz Oztireli, and Gurprit Singh. _Blue noise for diffusion models_. In ACM SIGGRAPH 2024 Conference Papers, SIGGRAPH '24, pages 1–11, New York, NY, USA, July 2024. Association for Computing Machinery.
-- **[JMFLK23]** Alexia Jolicoeur-Martineau, Kilian Fatras, Ke Li, and Tal Kachman. _Diffusion models with location-scale noise_, April 2023. arXiv:2304.05907.
-- **[NRW21]** Eliya Nachmani, Robin San Roman, and Lior Wolf. _Denoising Diffusion Gamma Models_, October 2021. arXiv:2110.05948 [cs, eess].
-- **[NSA24]** Gabriel Nobis et al. _Generative Fractional Diffusion Models_, June 2024. arXiv:2310.17638.
-- **[PPX24]** Kushagra Pandey et al. _Heavy-Tailed Diffusion Models_, October 2024. arXiv:2410.14171.
-- **[SSD24]** Dario Shariatian et al. _Denoising Lévy Probabilistic Models_, July 2024. arXiv:2407.18609 [cs, stat].
-- **[SSDK20]** Yang Song et al. _Score-Based Generative Modeling through Stochastic Differential Equations_, November 2020.
-- **[YPKL23]** Eunbi Yoon et al. _Score-based Generative Models with Lévy Processes_, November 2023.
+[1] Bishop, Christopher M., and Nasser M. Nasrabadi. Pattern recognition and machine learning. Vol. 4. No. 4. New York: springer, 2006.
+
+[2] Kingma, Diederik P., and Max Welling. "Auto-Encoding Variational Bayes." 2nd International Conference on Learning Representations (ICLR), 2014.
+
+[3] Goodfellow, Ian, et al. "Generative adversarial nets." Advances in neural information processing systems 27 (2014).
+
+[4] Rezende, Danilo, and Shakir Mohamed. "Variational inference with normalizing flows." International conference on machine learning. PMLR, 2015.
+
+[5] Ho, Jonathan, Ajay Jain, and Pieter Abbeel. "Denoising diffusion probabilistic models." Advances in neural information processing systems 33 (2020): 6840-6851.
+
+[6] Song, Yang, et al. "Score-based generative modeling through stochastic differential equations." arXiv preprint arXiv:2011.13456 (2020).
+
+[7] Yoon, Eun Bi, et al. "Score-based generative models with Lévy processes." Advances in Neural Information Processing Systems 36 (2023): 40694-40707.
+
+[8] Coles, Stuart, et al. An introduction to statistical modeling of extreme values. Vol. 208. London: Springer, 2001.
+
+[9] Mohamad, Mustafa A., and Themistoklis P. Sapsis. "Sequential sampling strategy for extreme event statistics in nonlinear dynamical systems." Proceedings of the National Academy of Sciences 115.44 (2018): 11138-11143.
+
+[10] Blanchard, Antoine, et al. "A multi-scale deep learning framework for projecting weather extremes." arXiv preprint arXiv:2210.12137 (2022).
+
+[11] Heusel, Martin, et al. "Gans trained by a two time-scale update rule converge to a local nash equilibrium." Advances in neural information processing systems 30 (2017).
+
+[12] 
