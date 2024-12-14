@@ -39,7 +39,7 @@ Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-
 
 It is important to note that Gaussian noise is applied during both the forward and backward processes. Figure 2 [homework] provides a visualization of the OU diffusion process, demonstrating the transformation of a bimodal Gaussian distribution into a unimodal Gaussian distribution in 1-D.
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure2.jpg)|
 |:--:| 
 | *Figure 2* |
 
