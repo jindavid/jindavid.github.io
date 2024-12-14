@@ -94,9 +94,52 @@ Given these limitations, we believe that more targeted evaluation strategies are
 
 ## A Physically Interpretable Evaluation Strategy
 
+The limitations of existing evaluations are twofold: not only is the Fréchet Inception Distance (FID) insensitive to the tails of distributions, but also the image datasets commonly used in cited works are not naturally heavy-tailed. This is because most image datasets are curated to contain balanced and diverse samples across categories, ensuring uniform representation of common and rare events. Consequently, such datasets lack the inherent extreme-value behavior or power-law characteristics associated with heavy-tailed phenomena.
+
+To address this, we propose testing models on datasets that are *naturally* heavy-tailed. With this motivation, we introduce the **Physically Interpretable Tail Evaluation (PITE)** strategy. This approach involves datasets representing physical phenomena that prior scientific research has demonstrated to follow heavy-tailed laws. Examples of such phenomena include precipitation levels, maximum sea levels, financial returns, genetic processes, network traffic, and Lagrangian trajectories [8]. Importantly, heavy-tailed phenomena are always defined with respect to specific *physical properties*, often referred to as physical observables or aggregate information, which are scalar quantities used to quantify the tails. These observables are known *a priori* based on domain knowledge.
+
+The advantage of using naturally heavy-tailed datasets is clear: they provide an inherent notion of tails and a well-defined physical interpretation of the generated samples, allowing for meaningful evaluation of a model’s ability to capture rare or extreme events.
+
+Once a well-defined notion of the tail is established, the challenge becomes quantifying the discrepancy between the tails of the real and generated distributions. Standard probabilistic metrics often fail in this regard because they emphasize the bulk of the distribution rather than the tails. For example, consider the Kullback-Leibler (KL) divergence between two distributions $p$ and $q$, defined as:
+
 \\[D_{KL}(p,q) = \int p(x)\log \frac{p(x)}{q(x)} dx.\\]
-\\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
-\\[\text{LOADER}(p,q) := \int \left|\log \frac{p(x)}{q(x)}\right|dx.\\]
+
+Here, the log-density ratio is weighted by the density function $p(x)$. In tail regions, where $p(x)$ is small by definition, the contribution to the overall metric is negligible, making KL divergence insensitive to discrepancies in the tails.
+
+To overcome this limitation, we adopt two tail-aware metrics from the rare-event quantification community: the **Mean Squared Quantile Error (MSQE)** [10] and the **Log Absolute Density Ratio (LOADER)** metric [9].
+
+1. **Mean Squared Quantile Error (MSQE)**:  
+   The MSQE metric focuses entirely on tail behavior. For two one-dimensional distributions $p$ and $q$, and a probability threshold $\eta$ (e.g., 0.95 or 0.99), it is defined as:
+
+    \\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
+
+   where $F^{-1}$ denotes the pseudo-inverse of the cumulative distribution function (CDF) of the respective distribution. By integrating over extreme quantiles, MSQE directly quantifies discrepancies in the tail regions.
+
+2. **Log Absolute Density Ratio (LOADER)**:  
+   The LOADER metric measures the divergence between two distributions with an emphasis on tail regions. It is defined as:
+
+    \\[\text{LOADER}(p,q) := \int \left|\log \frac{p(x)}{q(x)}\right|dx.\\]
+
+       While LOADER considers the entire distribution, it has been mathematically proven to emphasize tail behavior [9].
+
+### Practical Approximations
+
+- **MSQE**: This metric is approximated using empirical quantiles from the data and model-generated samples.  
+- **LOADER**: The densities $p(x)$ and $q(x)$ are estimated using Kernel Density Estimation (KDE), and the integral is computed via efficient quadrature rules.
+
+### Summary of the PITE Strategy
+
+The PITE strategy involves the following steps, as visualized in Figure 7:
+
+1. Select a dataset that is *naturally* heavy-tailed.
+2. Compute the physically meaningful observable statistics (e.g., precipitation extremes, maximum returns).
+3. Evaluate the rare-event test statistic using tail-aware metrics such as MSQE or LOADER.
+
+By focusing on datasets with inherent tail behavior and using metrics designed to quantify discrepancies in the tails, the PITE strategy provides a rigorous and interpretable framework for evaluating generative models in contexts where rare and extreme events are critical. 
+
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure7.jpg)|
+|:--:| 
+| *Figure 7: Illustration of the Fréchet Inception Distance* | 
 
 ## Results
 
