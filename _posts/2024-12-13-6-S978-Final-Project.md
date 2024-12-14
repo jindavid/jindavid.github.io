@@ -3,7 +3,7 @@ layout: post
 title: Evaluating Heavy-Tailed Diffusion Models on Naturally Heavy-Tailed Datasets with Rare Event Statistics
 subtitle : 6.S978 Final Project
 tags: [Course Project]
-author: David Jin, Kai Chang
+author: Kai Chang, David Jin
 comments : True
 ---
 
@@ -92,6 +92,12 @@ While FID has become the standard evaluation metric for image generation tasks, 
 
 Given these limitations, we believe that more targeted evaluation strategies are necessary to assess the ability of heavy-tailed diffusion models to capture rare and extreme events in the data distribution. In the next section, we propose a new evaluation framework designed to address these shortcomings.
 
+## A Physically Interpretable Evaluation Strategy
+
+## Results
+
+## Discussion and Conclusion
+
 ## References
 
 [1] Bishop, Christopher M., and Nasser M. Nasrabadi. Pattern recognition and machine learning. Vol. 4. No. 4. New York: springer, 2006.
@@ -117,3 +123,11 @@ Given these limitations, we believe that more targeted evaluation strategies are
 [11] Heusel, Martin, et al. "Gans trained by a two time-scale update rule converge to a local nash equilibrium." Advances in neural information processing systems 30 (2017).
 
 [12] 
+
+[13]
+
+[14]
+
+[15] Szegedy, Christian, et al. "Rethinking the inception architecture for computer vision." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
+
+[16] Deng, Jia, et al. "Imagenet: A large-scale hierarchical image database." 2009 IEEE conference on computer vision and pattern recognition. Ieee, 2009.
