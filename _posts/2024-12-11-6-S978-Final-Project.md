@@ -112,11 +112,17 @@ To explore this concept, we examine a representative model in this category: the
 &nbsp;
 
 Figure 4 presents the mathematical formulation of the forward and backward processes in the Lévy-Itō Model (LIM). The forward process in LIM is governed by the following stochastic differential equation:
+
 \\[ d \vec{X}_t = b \left(t, \vec{X}_{t-}\right) d t + \sigma_L(t) d L_t^\alpha, \\]
-where $b$ is the drift term, $\sigma_L$ is the variance schedule, and $L_t^\alpha$ represents an $\alpha$-stable Lévy process. Conversely, the backward process can be expressed as:  
+
+where $b$ is the drift term, $\sigma_L$ is the variance schedule, and $L_t^\alpha$ represents an $\alpha$-stable Lévy process. Conversely, the backward process can be expressed as:
+
 \\[ d \overleftarrow{X}_t = \left(b(t, \mathbf{x}) - \alpha \cdot \sigma_L^\alpha(t) S_t^{(\alpha)}(\mathbf{x})\right) \bar{d} t + \sigma_L(t) d \bar{L}_t^\alpha,\\]  
-where $S_t^{(\alpha)}$ is defined as:  
+
+where $S_t^{(\alpha)}$ is defined as:
+
 \\[S_t^{(\alpha)}(\mathbf{x}) := \frac{\Delta^{\frac{\alpha-2}{2}} \nabla p_t(\mathbf{x})}{p_t(\mathbf{x})},\\]
+
 and $\Delta^{\frac{\alpha-2}{2}}$ is the fractional Laplacian operator.
 
 &nbsp;
