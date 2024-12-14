@@ -66,7 +66,7 @@ To explore this concept, we examine a representative model in this category: the
 
 Many claims about the effectiveness of heavy-tailed diffusion models center on their purported ability to improve the coverage of the data distribution. However, to the best of our knowledge, these claims are predominantly supported by reductions in numerical scores from metrics such as the Fréchet Inception Distance (FID). Figure 6 provides an illustration of how FID is computed and used.
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure6.pdf)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure6.jpg)|
 |:--:| 
 | *Figure 6* | 
 
