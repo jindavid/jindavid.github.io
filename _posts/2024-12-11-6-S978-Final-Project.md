@@ -251,7 +251,7 @@ We use the ERA5-Land precipitation dataset, focusing on a region defined by lati
 
 &nbsp; 
 
-We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, with hyperparameters tuned for optimal performance. For the LIM, we select $\alpha = 1.7$ to ensure the noise exhibits heavy-tailed behavior. Both models use a U-Net architecture. After training, each model generates 9050 sample snapshots to match the size of the training set, ensuring a fair comparison. The generated samples are denoted as $\\{s_i\\}_{i=1}^m$ for SBM and $\\{l_i\\}_{i=1}^m$ for LIM.
+We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, with hyperparameters tuned for optimal performance. For the LIM, we select $\alpha = 1.7$ to ensure the noise exhibits heavy-tailed behavior. Both models use a U-Net architecture. After training, each model generates 9050 sample snapshots to match the size of the training set, ensuring a fair comparison. The generated samples are denoted as $ \\{s_i\\}_{i=1}^m $ for SBM and $ \\{l_i\\}_{i=1}^m $ for LIM.
 
 &nbsp; 
 
