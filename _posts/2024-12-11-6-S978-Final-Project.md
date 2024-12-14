@@ -265,7 +265,7 @@ This section provides an overview of the experimental setup, along with quantita
 
 &nbsp; 
 
-We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as `$\\{x_i\\}_{i=1}^n$`, the observable information is $\\{\max x_i\\}_{i=1}^{9050}$. A sample snapshot from the dataset is shown in Figure 8.
+We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\\{x_i\\}\_{i=1}^{9050}$, the observable information is $\\{\max x_i\\}\_{i=1}^{9050}$. A sample snapshot from the dataset is shown in Figure 8.
 
 &nbsp;  
 
