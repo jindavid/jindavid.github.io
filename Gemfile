@@ -13,5 +13,4 @@ group :jekyll_plugins do
   gem "jekyll-paginate"
   gem "jekyll-seo-tag"
   gem "jekyll-sass-converter", ">= 3.0.0"
-  gem "jekyll-katex"
 end
