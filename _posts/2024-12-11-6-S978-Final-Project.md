@@ -111,8 +111,8 @@ To explore this concept, we examine a representative model in this category: the
 
 &nbsp;
 
-Figure 4 presents the mathematical formulation of the forward and backward processes in the Lévy-Itō Model (LIM). The forward process in LIM is governed by the following stochastic differential equation:  
-\\[d \vec{X}_t = b\left(t, \vec{X}_{t-}\right) d t + \sigma_L(t) d L_t^\alpha, \\]
+Figure 4 presents the mathematical formulation of the forward and backward processes in the Lévy-Itō Model (LIM). The forward process in LIM is governed by the following stochastic differential equation:
+\\[ d \vec{X}_t = b \left(t, \vec{X}_{t-}\right) d t + \sigma_L(t) d L_t^\alpha, \\]
 where $b$ is the drift term, $\sigma_L$ is the variance schedule, and $L_t^\alpha$ represents an $\alpha$-stable Lévy process. Conversely, the backward process can be expressed as:  
 \\[ d \overleftarrow{X}_t = \left(b(t, \mathbf{x}) - \alpha \cdot \sigma_L^\alpha(t) S_t^{(\alpha)}(\mathbf{x})\right) \bar{d} t + \sigma_L(t) d \bar{L}_t^\alpha,\\]  
 where $S_t^{(\alpha)}$ is defined as:  
@@ -259,7 +259,7 @@ This section provides an overview of the experimental setup, along with quantita
 
 &nbsp; 
 
-We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\\{x_i\\}_{i=1}^n$, the observable information is $\\{\max x_i\\}_{i=1}^m$. A sample snapshot from the dataset is shown in Figure 8.
+We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as \$\\{x_i\\}_{i=1}^n\$, the observable information is $\\{\max x_i\\}_{i=1}^m$. A sample snapshot from the dataset is shown in Figure 8.
 
 &nbsp;  
 
