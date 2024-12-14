@@ -27,7 +27,30 @@ Since this blog prioritizes accessibility over formalism, we focus on intuition 
 Let $p_0$ be the true distribution that the data comes from, and assume we have access to IID samples $x_i$ from $p_0$. Suppose $p_T$ is a tractable distribution from which samples can be readily drawn. Generative modeling seeks to find a map $\tau$ such that $\tau_{\hash} p_T = p_0$ where $\tau_{\hash} p_T$ denotes the push-forward distribution of $p_T$ under $\tau$. That is, given a sample $\xi \sim p_T$, we have $\tau(\xi) \sim p_0.$ Different generative models adopt different methods to model $\tau$.
 
 ## Score-Based Diffusion Models
-Score-based diffusion models (SBMs) model $\tau$ through an Ornstein-Uhlenbeck (OU) process as illustrated in Figure 1 [slide #3] (credit to [6]). In essence, SBMs involve a forward process, where each $x_i$ is transformed into a $\xi_i\sim p_T$, and a backward process, where $\xi \sim p_T$ is transformed into $x \sim p_0$. It is worth emphasizing that it is Gaussian noises that are superposed during both processes. A visualization of the OU diffusion process from a bimodal Gaussian to a uni-modal Gaussian in 1-D is provided in Figure 2 [homework].
+
+Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1 [slide #3]. SBMs consist of two key processes: 
+
+[Figure 1]
+
+1. **Forward process**: Each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step.
+2. **Backward process**: A sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
+
+It is important to note that Gaussian noise is applied during both the forward and backward processes. Figure 2 [homework] provides a visualization of the OU diffusion process, demonstrating the transformation of a bimodal Gaussian distribution into a unimodal Gaussian distribution in 1-D.
+
+[Figure 2]
+
+## The Lévy-Itō Model
+
+While SBMs have demonstrated outstanding performance across many applications, recent studies have highlighted their limitations in effectively covering the true distribution when the training dataset is imbalanced—for example, if 90% of the images are of dogs and only 10% are of cats. This limitation arises because Gaussian noise has light tails, causing sample trajectories to concentrate around frequent samples in the training data while neglecting under-represented samples. This imbalance often results in poor coverage of minority classes. Motivated by this drawback, recent works have proposed the use of heavy-tailed noise in the measure-transportation process.
+
+To intuitively understand the advantage of heavy-tailed noise over Gaussian noise, consider a comparison between a standard Gaussian distribution and a standard Cauchy distribution. Figure 3 illustrates the 90% centered probability coverage for each distribution. The range of values covered by the Cauchy distribution is more than twice that of the Gaussian, reflecting the heavier tail of the Cauchy distribution. This wider range implies that samples from the Cauchy distribution exhibit greater diversity compared to those from the Gaussian distribution. Incorporating such heavy-tailed noise into the diffusion process is the fundamental idea behind heavy-tailed diffusion models.
+
+[Figure 3]  
+
+To explore this concept, we examine a representative model in this category: the Lévy-Itō Model (LIM). LIM replaces Gaussian noise with $\alpha$-stable noise, which has heavier tails. In the continuous case, the sample-transporting trajectories correspond to a Lévy process (when $\alpha < 2$) rather than a Brownian motion. Figure 4 provides an illustration of the LIM framework, and Figure 5 visualizes sample trajectories in a 1D-to-1D toy example.
+
+[Figure 4]  
+[Figure 5]  
 
 ## References
 
