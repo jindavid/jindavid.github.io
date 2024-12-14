@@ -12,12 +12,12 @@ lang: en
 
 # Search engine optimization settings
 title: David Jin's Personal Webpage
-tagline: A jekyll theme for academic portfolios
-description: The demonstration page for the Grape Academic Theme, a jekyll theme for academic portfolios based on the Grape Theme.
+tagline: 
+description: 
 author: David Jin
 twitter:
-  username: chrjabs
-  card: A jekyll theme for academic portfolios
+  username: DaviJin
+  card: 
 logo: /assets/img/smile.png
 social:
   name: David Jin
