@@ -5,7 +5,6 @@ subtitle : 6.S978 Final Project
 tags: [Course Project]
 author: David Jin, Kai Chang
 comments : True
-katex: true
 ---
 
 # The Effects of Non-Gaussian Noise in Diffusion Models: A Systematic Study
