@@ -49,16 +49,16 @@ While SBMs have demonstrated outstanding performance across many applications, r
 
 To intuitively understand the advantage of heavy-tailed noise over Gaussian noise, consider a comparison between a standard Gaussian distribution and a standard Cauchy distribution. Figure 3 illustrates the 90% centered probability coverage for each distribution. The range of values covered by the Cauchy distribution is more than twice that of the Gaussian, reflecting the heavier tail of the Cauchy distribution. This wider range implies that samples from the Cauchy distribution exhibit greater diversity compared to those from the Gaussian distribution. Incorporating such heavy-tailed noise into the diffusion process is the fundamental idea behind heavy-tailed diffusion models.
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure3.jpg)|
 |:--:| 
 | *Figure 3* |  
 
 To explore this concept, we examine a representative model in this category: the Lévy-Itō Model (LIM). LIM replaces Gaussian noise with $\alpha$-stable noise, which has heavier tails. In the continuous case, the sample-transporting trajectories correspond to a Lévy process (when $\alpha < 2$) rather than a Brownian motion. Figure 4 provides an illustration of the LIM framework, and Figure 5 visualizes sample trajectories in a 1D-to-1D toy example.
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure4.jpg)|
 |:--:| 
 | *Figure 4* | 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure5.jpg)|
 |:--:| 
 | *Figure 5* | 
 
@@ -66,7 +66,7 @@ To explore this concept, we examine a representative model in this category: the
 
 Many claims about the effectiveness of heavy-tailed diffusion models center on their purported ability to improve the coverage of the data distribution. However, to the best of our knowledge, these claims are predominantly supported by reductions in numerical scores from metrics such as the Fréchet Inception Distance (FID). Figure 6 provides an illustration of how FID is computed and used.
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure6.pdf)|
 |:--:| 
 | *Figure 6* | 
 
