@@ -95,7 +95,7 @@ Given these limitations, we believe that more targeted evaluation strategies are
 ## A Physically Interpretable Evaluation Strategy
 
 \\[D_{KL}(p,q) = \int p(x)\log \frac{p(x)}{q(x)} dx.\\]
-\\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{\dagger}(u)-F_{q}^{\dagger}(u)\right|^2 du,\\]
+\\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
 \\[\text{LOADER}(p,q) := \int \left|\log \frac{p(x)}{q(x)}\right|dx.\\]
 
 ## Results
