@@ -109,7 +109,29 @@ To explore this concept, we examine a representative model in this category: the
 |:--:| 
 | *Figure 5: Visualization of sample trajectories in a 1D-to-1D toy example[7]* | 
 
-&nbsp;  
+&nbsp;
+
+Figure 4 presents the mathematical formulation of the forward and backward processes in the Lévy-Itō Model (LIM). The forward process in LIM is governed by the following stochastic differential equation:  
+\\[d \vec{X}_t = b\left(t, \vec{X}_{t-}\right) d t + \sigma_L(t) d L_t^\alpha, \\]
+where $b$ is the drift term, $\sigma_L$ is the variance schedule, and $L_t^\alpha$ represents an $\alpha$-stable Lévy process. Conversely, the backward process can be expressed as:  
+\\[ d \overleftarrow{X}_t = \left(b(t, \mathbf{x}) - \alpha \cdot \sigma_L^\alpha(t) S_t^{(\alpha)}(\mathbf{x})\right) \bar{d} t + \sigma_L(t) d \bar{L}_t^\alpha,\\]  
+where $S_t^{(\alpha)}$ is defined as:  
+\\[S_t^{(\alpha)}(\mathbf{x}) := \frac{\Delta^{\frac{\alpha-2}{2}} \nabla p_t(\mathbf{x})}{p_t(\mathbf{x})},\\]
+and $\Delta^{\frac{\alpha-2}{2}}$ is the fractional Laplacian operator.
+
+&nbsp;
+
+To avoid delving too deeply into mathematical intricacies, we summarize the core intuition behind these formulations. The differential of the $\alpha$-stable Lévy process introduces noise into the samples, analogous to the Gaussian noise in Score-Based Models (SBMs). When $\alpha = 2$, the process reduces to Brownian motion. However, for $\alpha < 2$, the process exhibits frequent, steep jumps characteristic of heavy-tailed noise, as highlighted in the red boxes of Figure 5. 
+
+&nbsp;
+
+The operator $S_t^{(\alpha)}$ serves a similar purpose to the score function in SBMs, enabling a closed-form expression for the backward process. While the fractional Laplacian operator is mathematically defined through the Fourier transform rather than conventional derivatives, its detailed properties are beyond the scope of this discussion.
+
+&nbsp;
+
+
+In essence, both the forward and backward processes in LIM are similar to SBMs in terms of the formulations, with the critical difference being the inclusion of heavy-tailed noise. 
+
 
 ## Existing Evaluations
 
@@ -193,7 +215,7 @@ While LOADER considers the entire distribution, it has been mathematically prove
 
 &nbsp;  
 
-### Practical Approximations
+#### Practical Approximations
 
 &nbsp;  
 
@@ -203,7 +225,7 @@ In practice, the metrics above are computed as follows.
 
 &nbsp;  
 
-### Summary of the PITE Strategy
+#### Summary of the PITE Strategy
 
 &nbsp;  
 
@@ -233,7 +255,7 @@ This section provides an overview of the experimental setup, along with quantita
 
 &nbsp; 
 
-### Dataset
+#### Dataset
 
 &nbsp; 
 
@@ -247,7 +269,7 @@ We use the ERA5-Land precipitation dataset, focusing on a region defined by lati
 
 &nbsp; 
 
-### Training and Generation
+#### Training and Generation
 
 &nbsp; 
 
@@ -255,7 +277,7 @@ We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, 
 
 &nbsp; 
 
-### RMSQE and LOADER Values
+#### RMSQE and LOADER Values
 
 &nbsp; 
 
@@ -284,7 +306,7 @@ The quantitative results are summarized below:
 
 &nbsp; 
 
-### Analysis of Results
+#### Analysis of Results
 
 &nbsp; 
 
