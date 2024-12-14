@@ -237,7 +237,7 @@ This section provides an overview of the experimental setup, along with quantita
 
 &nbsp; 
 
-We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\{x_i\}^{9050}_{i=1}$, the observable information is $\{\text{max} x_i\}^{9050}_{i=1}$. A sample snapshot from the dataset is shown in Figure 8.
+We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\{x_i\}^{9050}_{i=1}$, the observable information is $\{max x_i\}^{9050}_{i=1}$. A sample snapshot from the dataset is shown in Figure 8.
 
 &nbsp;  
 
@@ -251,7 +251,7 @@ We use the ERA5-Land precipitation dataset, focusing on a region defined by lati
 
 &nbsp; 
 
-We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, with hyperparameters tuned for optimal performance. For the LIM, we select $\alpha = 1.7$ to ensure the noise exhibits heavy-tailed behavior. Both models use a U-Net architecture. After training, each model generates 9050 sample snapshots to match the size of the training set, ensuring a fair comparison. The generated samples are denoted as $\{s_i\}^{9050}_{i=1}$ for SBM and $\{l_i\}^{9050}_{i=1}$ for LIM.
+We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, with hyperparameters tuned for optimal performance. For the LIM, we select $\alpha = 1.7$ to ensure the noise exhibits heavy-tailed behavior. Both models use a U-Net architecture. After training, each model generates 9050 sample snapshots to match the size of the training set, ensuring a fair comparison. The generated samples are denoted as $\\{s_i\\}^{9050}_{i=1}$ for SBM and $\\{l_i\\}^{9050}_{i=1}$ for LIM.
 
 &nbsp; 
 
@@ -259,11 +259,11 @@ We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, 
 
 &nbsp; 
 
-After generating samples, we compute the observable information $\\{\text{max} s_i\\}^{9050}_{i=1}$ and $\\{\text{max} l_i\\}^{9050}_{i=1}$ for SBM and LIM, respectively. For the **RMSQE** metric, we set the tail cutoff $\eta = 0.975$, focusing on the top $2.5\%$ of quantiles. RMSQE is calculated between $\\{\text{max} x_i\\}^{9050}_{i=1}$ and $\\{\text{max} s_i\\}^{9050}_{i=1}$, and between $\\{\text{max} x_i\\}^{9050}_{i=1}$ and $\\{\text{max} l_i\\}^{9050}_{i=1}$.
+After generating samples, we compute the observable information $\\{max s_i\\}^{9050}_{i=1}$ and $\\{max l_i\\}^{9050}_{i=1}$ for SBM and LIM, respectively. For the **RMSQE** metric, we set the tail cutoff $\eta = 0.975$, focusing on the top $2.5\%$ of quantiles. RMSQE is calculated between $\\{max x_i\\}^{9050}_{i=1}$ and $\\{max s_i\\}^{9050}_{i=1}$, and between $\\{max x_i\\}^{9050}_{i=1}$ and $\\{max l_i\\}^{9050}_{i=1}$.
 
 &nbsp; 
 
-To compute **LOADER**, we first estimate the densities of $\\{\text{max} x_i\\}^{9050}_{i=1}$, $\\{\text{max} s_i\\}^{9050}_{i=1}$, and $\\{\text{max} l_i\\}^{9050}_{i=1}$ using Kernel Density Estimation (KDE) accelerated with Fast Fourier Transform (FFT). The resulting densities are denoted as $p_x$, $p_s$, and $p_l$. LOADER values are then calculated using Gaussian quadrature rules for $\text{LOADER}(p_x, p_s)$ and $\text{LOADER}(p_x, p_l)$. The estimated densities are shown in Figure 9, where the blue curve represents $p_x$, the orange curve represents $p_s$, and the green curve represents $p_l$.
+To compute **LOADER**, we first estimate the densities of $\\{max x_i\\}^{9050}_{i=1}$, $\\{max s_i\\}^{9050}_{i=1}$, and $\\{max l_i\\}^{9050}_{i=1}$ using Kernel Density Estimation (KDE) accelerated with Fast Fourier Transform (FFT). The resulting densities are denoted as $p_x$, $p_s$, and $p_l$. LOADER values are then calculated using Gaussian quadrature rules for $\text{LOADER}(p_x, p_s)$ and $\text{LOADER}(p_x, p_l)$. The estimated densities are shown in Figure 9, where the blue curve represents $p_x$, the orange curve represents $p_s$, and the green curve represents $p_l$.
 
 &nbsp;  
 
