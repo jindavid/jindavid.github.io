@@ -27,9 +27,9 @@ Let $p_0$ be the true distribution that the data comes from, and assume we have 
 
 ## Score-Based Diffusion Models
 
-Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1 [slide #3]. SBMs consist of two key processes: 
+Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1. SBMs consist of two key processes: 
 
-[Figure 1]
+![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)
 
 1. **Forward process**: Each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step.
 2. **Backward process**: A sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
