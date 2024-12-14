@@ -55,6 +55,8 @@ The goal of generative modeling is to learn a mapping $\tau$ such that the push-
 
 Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1.
 
+&nbsp;  
+
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
 |:--:| 
 | *Figure 1: Forward and backward processes of a diffusion model[6]* |
@@ -66,6 +68,8 @@ SBMs consist of two key processes. In the forward process, each $x_i \sim p_0$ i
 &nbsp;  
 
 It is important to note that Gaussian noise is applied during both the forward and backward processes. Figure 2 [homework] provides a visualization of the OU diffusion process, demonstrating the transformation of a bimodal Gaussian distribution into a unimodal Gaussian distribution in 1-D.
+
+&nbsp;  
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure2.png)|
 |:--:| 
@@ -83,6 +87,8 @@ While SBMs have demonstrated outstanding performance across many applications, r
 
 To intuitively understand the advantage of heavy-tailed noise over Gaussian noise, consider a comparison between a standard Gaussian distribution and a standard Cauchy distribution. Figure 3 illustrates the 90% centered probability coverage for each distribution. The range of values covered by the Cauchy distribution is more than twice that of the Gaussian, reflecting the heavier tail of the Cauchy distribution. This wider range implies that samples from the Cauchy distribution exhibit greater diversity compared to those from the Gaussian distribution. Incorporating such heavy-tailed noise into the diffusion process is the fundamental idea behind heavy-tailed diffusion models.
 
+&nbsp;  
+
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure3.jpg)|
 |:--:| 
 | *Figure 3: Gaussian vs Cauchy distribution* |  
@@ -91,9 +97,14 @@ To intuitively understand the advantage of heavy-tailed noise over Gaussian nois
 
 To explore this concept, we examine a representative model in this category: the Lévy-Itō Model (LIM). LIM replaces Gaussian noise with $\alpha$-stable noise, which has heavier tails. In the continuous case, the sample-transporting trajectories correspond to a Lévy process (when $\alpha < 2$) rather than a Brownian motion. Figure 4 provides an illustration of the LIM framework, and Figure 5 visualizes sample trajectories in a 1D-to-1D toy example.
 
+&nbsp;  
+
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure4.jpg)|
 |:--:| 
 | *Figure 4: Illustration of the Lévy-Itō Model  [7]* | 
+
+&nbsp;  
+
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure5.jpg)|
 |:--:| 
 | *Figure 5: Visualization of sample trajectories in a 1D-to-1D toy example[7]* | 
@@ -105,6 +116,8 @@ To explore this concept, we examine a representative model in this category: the
 &nbsp;  
 
 Many claims about the effectiveness of heavy-tailed diffusion models center on their purported ability to improve the coverage of the data distribution. However, to the best of our knowledge, these claims are predominantly supported by reductions in numerical scores from metrics such as the Fréchet Inception Distance (FID). Figure 6 provides an illustration of how FID is computed and used.
+
+&nbsp;  
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure6.jpg)|
 |:--:| 
@@ -204,6 +217,8 @@ The PITE strategy involves the following steps, as visualized in Figure 7:
 
 By focusing on datasets with inherent tail behavior and using metrics designed to quantify discrepancies in the tails, the PITE strategy provides a rigorous and interpretable framework for evaluating generative models in contexts where rare and extreme events are critical. 
 
+&nbsp;  
+
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure7.jpg)|
 |:--:| 
 | *Figure 7: Illustration of Our Physically Interpretable Tail Evaluation strategy* | 
@@ -217,6 +232,8 @@ By focusing on datasets with inherent tail behavior and using metrics designed t
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure8.jpg)|
 |:--:| 
 | *Figure 8: Illustration of Our Physically Interpretable Tail Evaluation strategy* |
+
+&nbsp;  
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure9.jpg)|
 |:--:| 
