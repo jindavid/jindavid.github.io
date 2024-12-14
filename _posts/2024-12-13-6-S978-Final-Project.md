@@ -10,6 +10,8 @@ comments : True
 ## Introduction
 In its broadest sense, generative modeling addresses the statistical challenge of estimating and sampling from an unknown probability distribution given only a finite set of samples. When the target distribution is high-dimensional, this task becomes daunting, and traditional approaches such as Gaussian Mixture Models quickly become computationally infeasible [1]. Modern generative modeling techniques have largely circumvented these limitations by focusing on learning a mapping from a simple base distribution, which is easy to sample from, to the target distribution, approximating this mapping using the available data. The specifics of how this mapping is defined and constructed vary significantly across methods. Over the past decade, several approaches leveraging deep neural networks have emerged, including Variational Autoencoders (VAEs) [2], Generative Adversarial Networks (GANs) [3], Normalizing Flows [4], Denoising Diffusion Probabilistic Models (DDPMs) [5], and Score-Based Diffusion Models (SBMs) [6].
 
+
+
 Among these frameworks, SBMs and DDPMs have achieved remarkable success across a wide range of applications, from image generation and protein design to weather forecasting, robotic manipulation, and climate emulation. SBMs model the mapping from the base to the target distribution as the reverse stochastic differential equation (SDE) of a pre-defined forward Ornstein-Uhlenbeck (OU) process, while DDPMs can be seen as a discrete counterpart of SBMs. In these models, the forward process gradually transforms samples from the target distribution into the base distribution by adding Gaussian noise with specified covariance structures. The reverse process similarly involves adding Gaussian noise to samples from the base distribution, effectively producing samples that mimic the target distribution. However, due to the nature of the OU process, the added noise is inherently Gaussian.
 
 While this Gaussian constraint works well in many scenarios, it can be limiting when the target distribution exhibits heavy-tailed (rare and extreme events) or long-tailed (imbalanced datasets) characteristics. Recent works argue that Gaussian noise, with its square-exponentially decaying tails, inherently biases the generation process toward frequent, central samples in the training data, often underrepresenting rare or extreme samples that are at least equally critical. This limitation in diversity poses challenges in domains where extreme events or class imbalances are naturally present, as observed in various scientific and engineering contexts (e.g., [8]).
@@ -135,7 +137,7 @@ By focusing on datasets with inherent tail behavior and using metrics designed t
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure7.jpg)|
 |:--:| 
-| *Figure 7: Illustration of the Fréchet Inception Distance* | 
+| *Figure 7: Illustration of Our Physically Interpretable Tail Evaluation strategy* | 
 
 ## Results
 
