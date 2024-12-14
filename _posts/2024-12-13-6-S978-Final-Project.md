@@ -23,14 +23,17 @@ Motivated by this gap, we propose an alternative evaluation framework grounded i
 Since this blog prioritizes accessibility over formalism, we focus on intuition and provide sufficient mathematical background for clarity. Rather than claiming that our approach is state-of-the-art, we aim to demonstrate the value of designing evaluation strategies from first principles. We hope this exposition inspires readers to reconsider the ways in which generative models are evaluated, particularly in contexts involving rare and extreme events.
 
 ## Problem Statement
-Let $p_0$ be the true distribution that the data comes from, and assume we have access to IID samples $\\{x_i\\}^n_{i=1}$ from $p_0$. Suppose $p_T$ is a tractable distribution from which samples can be readily drawn. Generative modeling seeks to find a map $\tau$ such that $\tau_{\\#} p_T = p_0$ where $\tau_{\\#} p_T$ denotes the push-forward distribution of $p_T$ under $\tau$. That is, given a sample $\xi \sim p_T$, we have $\tau(\xi) \sim p_0.$ Different generative models adopt different methods to model $\tau$.
+Let $p_0$ be the true distribution that the data comes from, and assume we have access to IID samples $\\{x_i\\}^n_{i=1}$ from $p_0$. Suppose $p_T$ is a tractable distribution from which samples can be readily drawn. Generative modeling seeks to find a map $\tau$ such that 
+$$\tau_{\\#} p_T = p_0$$
+ where $\tau_{\\#} p_T$ denotes the push-forward distribution of $p_T$ under $\tau$. That is, given a sample $\xi \sim p_T$, we have $\tau(\xi) \sim p_0.$ Different generative models adopt different methods to model $\tau$.
 
 ## Score-Based Diffusion Models
 
 Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1. SBMs consist of two key processes: 
 
-![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)
-*Figure 1*
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|:--:| 
+| *Figure 1* |
 
 1. **Forward process**: Each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step.
 2. **Backward process**: A sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
