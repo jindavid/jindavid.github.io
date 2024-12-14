@@ -71,6 +71,3 @@ fontawesome:
 jquery:
   version: "3.6.0"
   integrity: "sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4="
-
-plugins:
-- jekyll-katex
