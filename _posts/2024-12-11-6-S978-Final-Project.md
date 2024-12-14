@@ -57,7 +57,7 @@ Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure1.jpg)|
 |:--:| 
 | *Figure 1: Forward and backward processes of a diffusion model[6]* |
 
@@ -71,7 +71,7 @@ It is important to note that Gaussian noise is applied during both the forward a
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure2.png)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure2.png)|
 |:--:| 
 | *Figure 2: Visualization of the Ornstein-Uhlenbeck diffusion process [Homework 4]* |
 
@@ -89,7 +89,7 @@ To intuitively understand the advantage of heavy-tailed noise over Gaussian nois
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure3.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure3.jpg)|
 |:--:| 
 | *Figure 3: Gaussian vs Cauchy distribution* |  
 
@@ -99,13 +99,13 @@ To explore this concept, we examine a representative model in this category: the
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure4.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure4.jpg)|
 |:--:| 
 | *Figure 4: Illustration of the Lévy-Itō Model  [7]* | 
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure5.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure5.jpg)|
 |:--:| 
 | *Figure 5: Visualization of sample trajectories in a 1D-to-1D toy example[7]* | 
 
@@ -119,7 +119,7 @@ Many claims about the effectiveness of heavy-tailed diffusion models center on t
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure6.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure6.jpg)|
 |:--:| 
 | *Figure 6: Illustration of the Fréchet Inception Distance* | 
 
@@ -219,7 +219,7 @@ By focusing on datasets with inherent tail behavior and using metrics designed t
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure7.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure7.jpg)|
 |:--:| 
 | *Figure 7: Illustration of Our Physically Interpretable Tail Evaluation strategy* | 
 
@@ -237,11 +237,11 @@ This section provides an overview of the experimental setup, along with quantita
 
 &nbsp; 
 
-We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\{x_i\}^{9050}_{i=1}$, the observable information is $\{\max x_i\}^{9050}_{i=1}$. A sample snapshot from the dataset is shown in Figure 8.
+We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\{x_i\}^{9050}_{i=1}$, the observable information is $\{\text{max} x_i\}^{9050}_{i=1}$. A sample snapshot from the dataset is shown in Figure 8.
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure8.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure8.jpg)|
 |:--:| 
 | *Figure 8: A sample snapshot from the ERA5-Land precipitation dataset* |
 
@@ -259,15 +259,15 @@ We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, 
 
 &nbsp; 
 
-After generating samples, we compute the observable information $\\{\max s_i\\}^{9050}_{i=1}$ and $\\{\max l_i\\}^{9050}_{i=1}$ for SBM and LIM, respectively. For the **RMSQE** metric, we set the tail cutoff $\eta = 0.975$, focusing on the top $2.5\%$ of quantiles. RMSQE is calculated between $\\{\max x_i\\}^{9050}_{i=1}$ and $\\{\max s_i\\}^{9050}_{i=1}$, and between $\\{\max x_i\\}^{9050}_{i=1}$ and $\\{\max l_i\\}^{9050}_{i=1}$.
+After generating samples, we compute the observable information $\\{\text{max} s_i\\}^{9050}_{i=1}$ and $\\{\text{max} l_i\\}^{9050}_{i=1}$ for SBM and LIM, respectively. For the **RMSQE** metric, we set the tail cutoff $\eta = 0.975$, focusing on the top $2.5\%$ of quantiles. RMSQE is calculated between $\\{\text{max} x_i\\}^{9050}_{i=1}$ and $\\{\text{max} s_i\\}^{9050}_{i=1}$, and between $\\{\text{max} x_i\\}^{9050}_{i=1}$ and $\\{\text{max} l_i\\}^{9050}_{i=1}$.
 
 &nbsp; 
 
-To compute **LOADER**, we first estimate the densities of $\\{\max x_i\\}^{9050}_{i=1}$, $\\{\max s_i\\}^{9050}_{i=1}$, and $\\{\max l_i\\}^{9050}_{i=1}$ using Kernel Density Estimation (KDE) accelerated with Fast Fourier Transform (FFT). The resulting densities are denoted as $p_x$, $p_s$, and $p_l$. LOADER values are then calculated using Gaussian quadrature rules for $\text{LOADER}(p_x, p_s)$ and $\text{LOADER}(p_x, p_l)$. The estimated densities are shown in Figure 9, where the blue curve represents $p_x$, the orange curve represents $p_s$, and the green curve represents $p_l$.
+To compute **LOADER**, we first estimate the densities of $\\{\text{max} x_i\\}^{9050}_{i=1}$, $\\{\text{max} s_i\\}^{9050}_{i=1}$, and $\\{\text{max} l_i\\}^{9050}_{i=1}$ using Kernel Density Estimation (KDE) accelerated with Fast Fourier Transform (FFT). The resulting densities are denoted as $p_x$, $p_s$, and $p_l$. LOADER values are then calculated using Gaussian quadrature rules for $\text{LOADER}(p_x, p_s)$ and $\text{LOADER}(p_x, p_l)$. The estimated densities are shown in Figure 9, where the blue curve represents $p_x$, the orange curve represents $p_s$, and the green curve represents $p_l$.
 
 &nbsp;  
 
-|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure9.jpg)|
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-11-6-S978-Final-Project/figure9.jpg)|
 |:--:| 
 | *Figure 9: Comparison of approximate densities of the physical observable information associated with the original dataset, samples generated by SBM, and samples generated by LIM. Blue: original. Orange: SBM. Green: LIM.* | 
 
@@ -296,7 +296,19 @@ In summary, this example and the corresponding tail-aware metrics illustrate tha
 
 &nbsp; 
 
-## Discussion and Conclusion
+## Conclusion
+
+&nbsp; 
+
+We have proposed an alternative evaluation strategy for assessing the ability of heavy-tailed diffusion models to capture under-represented regions of the data distribution. Our framework, named Physically Interpretable Tail Evaluation (PITE), is grounded in well-established physical principles and offers a quantitative approach to evaluate generative models in terms of their capacity to generate tail events. By focusing on datasets with naturally heavy-tailed properties and employing tail-aware metrics such as RMSQE and LOADER, PITE provides a more rigorous and interpretable assessment compared to traditional metrics like Fréchet Inception Distance (FID).
+
+&nbsp; 
+
+Our findings corroborate claims made in recent works on heavy-tailed diffusion models, showing that replacing Gaussian noise with heavy-tailed noise improves the model's ability to generate samples from the tail regions of the data distribution. Specifically, the Lévy-Itō Model (LIM), with $\alpha$-stable noise, demonstrated significantly better performance than standard Score-Based Models (SBMs) in generating tail events. This improvement was reflected in lower RMSQE and LOADER values and was further supported by visual alignment of the generated tail densities with the true data distribution.
+
+&nbsp; 
+
+The PITE framework goes beyond merely improving evaluation accuracy; it offers a physically interpretable lens through which model performance can be understood in the context of rare and extreme events. This is particularly relevant for applications such as weather forecasting, financial risk analysis, and scientific simulations, where accurate modeling of tails is crucial.
 
 &nbsp; 
 
