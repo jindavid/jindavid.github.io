@@ -122,11 +122,11 @@ Given these limitations, we believe that more targeted evaluation strategies are
 
 [11] Heusel, Martin, et al. "Gans trained by a two time-scale update rule converge to a local nash equilibrium." Advances in neural information processing systems 30 (2017).
 
-[12] 
+[12] Kushagra Pandey, Jaideep Pathak, Yilun Xu, Stephan Mandt, Michael Pritchard, Arash Vahdat, and Morteza Mardani. Heavy-Tailed Diffusion Models, October 2024. arXiv:2410.14171.
 
-[13]
+[13] Dario Shariatian, Umut Simsekli, and Alain Durmus. Denoising Lévy Probabilistic Models, July 2024. arXiv:2407.18609 [cs, stat].
 
-[14]
+[14] Eliya Nachmani, Robin San Roman, and Lior Wolf. Denoising Diffusion Gamma Models, October 2021. arXiv:2110.05948 [cs, eess].
 
 [15] Szegedy, Christian, et al. "Rethinking the inception architecture for computer vision." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
 
