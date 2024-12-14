@@ -3,7 +3,7 @@ layout: post
 title: Evaluating Heavy-Tailed Diffusion Models on Naturally Heavy-Tailed Datasets with Rare Event Statistics
 subtitle : 6.S978 Final Project
 tags: [Course Project]
-author: David Jin, Kai Chang
+author: Kai Chang, David Jin
 comments : True
 ---
 
