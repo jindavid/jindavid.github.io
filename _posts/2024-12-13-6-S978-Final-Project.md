@@ -109,21 +109,17 @@ Here, the log-density ratio is weighted by the density function $p(x)$. In tail 
 To overcome this limitation, we adopt two tail-aware metrics from the rare-event quantification community: the **Mean Squared Quantile Error (MSQE)** [10] and the **Log Absolute Density Ratio (LOADER)** metric [9].
 
 1. **Mean Squared Quantile Error (MSQE)**:  
-   The MSQE metric focuses entirely on tail behavior. For two one-dimensional distributions $p$ and $q$, and a probability threshold $\eta$ (e.g., 0.95 or 0.99), it is defined as:
-
-    \\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
-
-   where $F^{-1}$ denotes the pseudo-inverse of the cumulative distribution function (CDF) of the respective distribution. By integrating over extreme quantiles, MSQE directly quantifies discrepancies in the tail regions.
+The MSQE metric focuses entirely on tail behavior. For two one-dimensional distributions $p$ and $q$, and a probability threshold $\eta$ (e.g., 0.95 or 0.99), it is defined as:
+\\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
+where $F^{-1}$ denotes the pseudo-inverse of the cumulative distribution function (CDF) of the respective distribution. By integrating over extreme quantiles, MSQE directly quantifies discrepancies in the tail regions.
 
 2. **Log Absolute Density Ratio (LOADER)**:  
-   The LOADER metric measures the divergence between two distributions with an emphasis on tail regions. It is defined as:
-
-    \\[\text{LOADER}(p,q) := \int \left|\log \frac{p(x)}{q(x)}\right|dx.\\]
-
-       While LOADER considers the entire distribution, it has been mathematically proven to emphasize tail behavior [9].
+The LOADER metric measures the divergence between two distributions with an emphasis on tail regions. It is defined as:
+\\[\text{LOADER}(p,q) := \int \left|\log \frac{p(x)}{q(x)}\right|dx.\\]
+While LOADER considers the entire distribution, it has been mathematically proven to emphasize tail behavior [9].
 
 ### Practical Approximations
-
+In practice, the metrics above are computed as follows. 
 - **MSQE**: This metric is approximated using empirical quantiles from the data and model-generated samples.  
 - **LOADER**: The densities $p(x)$ and $q(x)$ are estimated using Kernel Density Estimation (KDE), and the integral is computed via efficient quadrature rules.
 
