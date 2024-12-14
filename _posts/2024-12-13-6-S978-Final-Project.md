@@ -24,7 +24,7 @@ Since this blog prioritizes accessibility over formalism, we focus on intuition 
 
 ## Problem Statement
 Let $p_0$ be the true distribution that the data comes from, and assume we have access to IID samples $\\{x_i\\}^n_{i=1}$ from $p_0$. Suppose $p_T$ is a tractable distribution from which samples can be readily drawn. Generative modeling seeks to find a map $\tau$ such that 
-$$\tau_{\\#} p_T = p_0$$
+\\[\tau_{\\#} p_T = p_0\\]
  where $\tau_{\\#} p_T$ denotes the push-forward distribution of $p_T$ under $\tau$. That is, given a sample $\xi \sim p_T$, we have $\tau(\xi) \sim p_0.$ Different generative models adopt different methods to model $\tau$.
 
 ## Score-Based Diffusion Models
@@ -40,7 +40,9 @@ Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-
 
 It is important to note that Gaussian noise is applied during both the forward and backward processes. Figure 2 [homework] provides a visualization of the OU diffusion process, demonstrating the transformation of a bimodal Gaussian distribution into a unimodal Gaussian distribution in 1-D.
 
-[Figure 2]
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|:--:| 
+| *Figure 2* |
 
 ## The Lévy-Itō Model
 
@@ -48,12 +50,18 @@ While SBMs have demonstrated outstanding performance across many applications, r
 
 To intuitively understand the advantage of heavy-tailed noise over Gaussian noise, consider a comparison between a standard Gaussian distribution and a standard Cauchy distribution. Figure 3 illustrates the 90% centered probability coverage for each distribution. The range of values covered by the Cauchy distribution is more than twice that of the Gaussian, reflecting the heavier tail of the Cauchy distribution. This wider range implies that samples from the Cauchy distribution exhibit greater diversity compared to those from the Gaussian distribution. Incorporating such heavy-tailed noise into the diffusion process is the fundamental idea behind heavy-tailed diffusion models.
 
-[Figure 3]  
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|:--:| 
+| *Figure 3* |  
 
 To explore this concept, we examine a representative model in this category: the Lévy-Itō Model (LIM). LIM replaces Gaussian noise with $\alpha$-stable noise, which has heavier tails. In the continuous case, the sample-transporting trajectories correspond to a Lévy process (when $\alpha < 2$) rather than a Brownian motion. Figure 4 provides an illustration of the LIM framework, and Figure 5 visualizes sample trajectories in a 1D-to-1D toy example.
 
-[Figure 4]  
-[Figure 5]  
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|:--:| 
+| *Figure 4* | 
+|![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
+|:--:| 
+| *Figure 5* | 
 
 ## References
 
