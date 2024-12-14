@@ -35,8 +35,8 @@ Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-
 |:--:| 
 | *Figure 1* |
 
-1. **Forward process**: Each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step.
-2. **Backward process**: A sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
+**Forward process**: Each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step.
+**Backward process**: A sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
 
 It is important to note that Gaussian noise is applied during both the forward and backward processes. Figure 2 [homework] provides a visualization of the OU diffusion process, demonstrating the transformation of a bimodal Gaussian distribution into a unimodal Gaussian distribution in 1-D.
 
