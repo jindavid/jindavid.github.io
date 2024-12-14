@@ -29,14 +29,13 @@ The goal of generative modeling is to learn a mapping $\tau$ such that the push-
 
 ## Score-Based Diffusion Models
 
-Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1. SBMs consist of two key processes: 
+Score-based diffusion models (SBMs) define the mapping $\tau$ using an Ornstein-Uhlenbeck (OU) process, as illustrated in Figure 1.
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure1.jpg)|
 |:--:| 
 | *Figure 1* |
 
-**Forward process**: Each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step.
-**Backward process**: A sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
+ SBMs consist of two key processes. In the forward process, each $x_i \sim p_0$ is progressively transformed into $\xi_i \sim p_T$ by adding Gaussian noise at each step. In the backward process, a sample $\xi \sim p_T$ is iteratively refined through a reverse process to produce $x \sim p_0$, effectively reconstructing the original data distribution.
 
 It is important to note that Gaussian noise is applied during both the forward and backward processes. Figure 2 [homework] provides a visualization of the OU diffusion process, demonstrating the transformation of a bimodal Gaussian distribution into a unimodal Gaussian distribution in 1-D.
 
@@ -93,6 +92,12 @@ While FID has become the standard evaluation metric for image generation tasks, 
 
 Given these limitations, we believe that more targeted evaluation strategies are necessary to assess the ability of heavy-tailed diffusion models to capture rare and extreme events in the data distribution. In the next section, we propose a new evaluation framework designed to address these shortcomings.
 
+## A Physically Interpretable Evaluation Strategy
+
+## Results
+
+## Discussion and Conclusion
+
 ## References
 
 [1] Bishop, Christopher M., and Nasser M. Nasrabadi. Pattern recognition and machine learning. Vol. 4. No. 4. New York: springer, 2006.
@@ -118,3 +123,11 @@ Given these limitations, we believe that more targeted evaluation strategies are
 [11] Heusel, Martin, et al. "Gans trained by a two time-scale update rule converge to a local nash equilibrium." Advances in neural information processing systems 30 (2017).
 
 [12] 
+
+[13]
+
+[14]
+
+[15] Szegedy, Christian, et al. "Rethinking the inception architecture for computer vision." Proceedings of the IEEE conference on computer vision and pattern recognition. 2016.
+
+[16] Deng, Jia, et al. "Imagenet: A large-scale hierarchical image database." 2009 IEEE conference on computer vision and pattern recognition. Ieee, 2009.
