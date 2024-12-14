@@ -179,12 +179,12 @@ Here, the log-density ratio is weighted by the density function $p(x)$. In tail 
 
 &nbsp;  
 
-To overcome this limitation, we adopt two tail-aware metrics from the rare-event quantification community: the **Mean Squared Quantile Error (MSQE)** [10] and the **Log Absolute Density Ratio (LOADER)** metric [9].
+To overcome this limitation, we adopt two tail-aware metrics from the rare-event quantification community: the **Root Mean Squared Quantile Error (RMSQE)** [10] and the **Log Absolute Density Ratio (LOADER)** metric [9].
 
-1. **Mean Squared Quantile Error (MSQE)**:  
-The MSQE metric focuses entirely on tail behavior. For two one-dimensional distributions $p$ and $q$, and a probability threshold $\eta$ (e.g., 0.95 or 0.99), it is defined as:
-\\[\text{MSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
-where $F^{-1}$ denotes the pseudo-inverse of the cumulative distribution function (CDF) of the respective distribution. By integrating over extreme quantiles, MSQE directly quantifies discrepancies in the tail regions.
+1. **Root Mean Squared Quantile Error (RMSQE)**:  
+The RMSQE metric focuses entirely on tail behavior. For two one-dimensional distributions $p$ and $q$, and a probability threshold $\eta$ (e.g., 0.95 or 0.99), it is defined as:
+\\[\text{RMSQE}(p, q) := \int_\eta^1 \left|F_{p}^{-1}(u)-F_{q}^{-1}(u)\right|^2 du,\\]
+where $F^{-1}$ denotes the pseudo-inverse of the cumulative distribution function (CDF) of the respective distribution. By integrating over extreme quantiles, RMSQE directly quantifies discrepancies in the tail regions.
 
 2. **Log Absolute Density Ratio (LOADER)**:  
 The LOADER metric measures the divergence between two distributions with an emphasis on tail regions. It is defined as:
@@ -198,7 +198,7 @@ While LOADER considers the entire distribution, it has been mathematically prove
 &nbsp;  
 
 In practice, the metrics above are computed as follows. 
-- **MSQE**: This metric is approximated using empirical quantiles from the data and model-generated samples.  
+- **RMSQE**: This metric is approximated using empirical quantiles from the data and model-generated samples.  
 - **LOADER**: The densities $p(x)$ and $q(x)$ are estimated using Kernel Density Estimation (KDE), and the integral is computed via efficient quadrature rules.
 
 &nbsp;  
@@ -211,7 +211,7 @@ The PITE strategy involves the following steps, as visualized in Figure 7:
 
 1. Select a dataset that is *naturally* heavy-tailed.
 2. Compute the physically meaningful observable statistics (e.g., precipitation extremes, maximum returns).
-3. Evaluate the rare-event test statistic using tail-aware metrics such as MSQE or LOADER.
+3. Evaluate the rare-event test statistic using tail-aware metrics such as RMSQE or LOADER.
 
 &nbsp;  
 
@@ -227,19 +227,78 @@ By focusing on datasets with inherent tail behavior and using metrics designed t
 
 ## Results
 
+&nbsp; 
+
+This section provides an overview of the experimental setup, along with quantitative and qualitative results.
+
+&nbsp; 
+
+### Dataset
+
+&nbsp; 
+
+We use the ERA5-Land precipitation dataset, focusing on a region defined by latitudes $30.8^\circ$N to $38.7^\circ$N and longitudes $81.7^\circ$W to $97.6^\circ$W. The dataset has a spatial resolution of $0.1^\circ$ in each dimension, resulting in snapshots of size $80 \times 160$. Over 25 years, we collect daily maximal precipitation fields, yielding a total of 9050 snapshots. The physical observable used is the maximal regional daily maximum precipitation. Mathematically, if the dataset is represented as $\{x_i\}_{i=1}^{9050}$, the observable information is $\{\max x_i\}_{i=1}^{9050}$. A sample snapshot from the dataset is shown in Figure 8.
+
 &nbsp;  
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure8.jpg)|
 |:--:| 
-| *Figure 8: Illustration of Our Physically Interpretable Tail Evaluation strategy* |
+| *Figure 8: A sample snapshot from the ERA5-Land precipitation dataset* |
+
+&nbsp; 
+
+### Training and Generation
+
+&nbsp; 
+
+We train a Score-Based Model (SBM) and a Lévy-Itō Model (LIM) on the dataset, with hyperparameters tuned for optimal performance. For the LIM, we select $\alpha = 1.7$ to ensure the noise exhibits heavy-tailed behavior. Both models use a U-Net architecture. After training, each model generates 9050 sample snapshots to match the size of the training set, ensuring a fair comparison. The generated samples are denoted as $\{s_i\}_{i=1}^{9050}$ for SBM and $\{l_i\}_{i=1}^{9050}$ for LIM.
+
+&nbsp; 
+
+### RMSQE and LOADER Values
+
+&nbsp; 
+
+After generating samples, we compute the observable information $\\{\max s_i\\}_{i=1}^{9050}$ and $\\{\max l_i\\}_{i=1}^{9050}$ for SBM and LIM, respectively. For the **RMSQE** metric, we set the tail cutoff $\eta = 0.975$, focusing on the top $2.5\%$ of quantiles. RMSQE is calculated between $\\{\max x_i\\}_{i=1}^{9050}$ and $\\{\max s_i\\}_{i=1}^{9050}$, and between $\\{\max x_i\\}_{i=1}^{9050}$ and $\\{\max l_i\\}_{i=1}^{9050}$.
+
+&nbsp; 
+
+To compute **LOADER**, we first estimate the densities of $\\{\max x_i\\}_{i=1}^{9050}$, $\\{\max s_i\\}_{i=1}^{9050}$, and $\{\max l_i\}_{i=1}^{9050}$ using Kernel Density Estimation (KDE) accelerated with Fast Fourier Transform (FFT). The resulting densities are denoted as $p_x$, $p_s$, and $p_l$. LOADER values are then calculated using Gaussian quadrature rules for $\text{LOADER}(p_x, p_s)$ and $\text{LOADER}(p_x, p_l)$. The estimated densities are shown in Figure 9, where the blue curve represents $p_x$, the orange curve represents $p_s$, and the green curve represents $p_l$.
 
 &nbsp;  
 
 |![sample image]({{ site.baseurl }}/assets/img/2024-12-13-6-S978-Final-Project/figure9.jpg)|
 |:--:| 
-| *Figure 9: Illustration of Our Physically Interpretable Tail Evaluation strategy* | 
+| *Figure 9: Comparison of approximate densities of the physical observable information associated with the original dataset, samples generated by SBM, and samples generated by LIM. Blue: original. Orange: SBM. Green: LIM.* | 
+
+&nbsp;  
+
+The quantitative results are summarized below:
+
+&nbsp; 
+
+| Metric     | SBM         | LIM ($\alpha = 1.7$) |
+|------------|-------------|-----------------------|
+| RMSQE      | 47.68       | 12.74                |
+| LOADER     | 57.83       | 38.27                |
+
+&nbsp; 
+
+### Analysis of Results
+
+&nbsp; 
+
+The results clearly demonstrate that LIM outperforms SBM in both RMSQE and LOADER metrics. This is also evident in Figure 9, where the tail of $p_l$ closely aligns with $p_x$, whereas $p_s$ diverges significantly. It is worth noting that LIM’s improvement in the RMSQE metric is much more pronounced than in the LOADER metric. This difference arises because RMSQE exclusively focuses on tail behavior, while LOADER accounts for the entire distribution, including the bulk. In the bulk regions, SBM slightly outperforms LIM due to LIM’s emphasis on tail generation, which comes at the expense of bulk accuracy. This trade-off is consistent with the intended purpose of heavy-tailed noise.
+
+&nbsp; 
+
+In summary, this example and the corresponding tail-aware metrics illustrate that employing heavy-tailed noise, as in LIM, can significantly enhance a model’s ability to generate tail events effectively.
+
+&nbsp; 
 
 ## Discussion and Conclusion
+
+&nbsp; 
 
 ## References
 
