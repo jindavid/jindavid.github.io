@@ -1,10 +1,11 @@
 ---
 layout: post
-title: Evaluating Heavy-Tailed Diffusion Models on Heavy-Tailed Datasets with Rare Event Statistics
+title: Evaluating Heavy-Tailed Diffusion Models on Naturally Heavy-Tailed Datasets with Rare Event Statistics
 subtitle : 6.S978 Final Project
 tags: [Course Project]
 author: David Jin, Kai Chang
 comments : True
+usemathjax: true
 ---
 
 # The Effects of Non-Gaussian Noise in Diffusion Models: A Systematic Study
