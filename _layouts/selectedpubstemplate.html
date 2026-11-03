@@ -5,5 +5,6 @@
   {% if entry.url %}<h4><a href="{{ entry.url }}">{{ entry.title }}</a></h4>
   {% elsif entry.status == 'blog' %}<h4>{{ entry.title }}</h4>
   {% else %}<h4><a href="{{ paper_path | relative_url }}">{{ entry.title }}</a></h4>{% endif %}
-  <p class="metadata">{{ entry.presentation_label | default: entry.note | default: entry.year }}</p>
+  {% assign venue = entry.presentation_label | default: entry.note | default: entry.year %}
+  <p class="metadata">{% case entry.status %}{% when 'published' %}Paper · {{ venue }}{% when 'blog' %}Blog · {{ venue }}{% when 'preprint' %}Preprint{% else %}{{ venue }}{% endcase %}</p>
 </article>
