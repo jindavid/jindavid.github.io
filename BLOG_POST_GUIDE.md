@@ -37,7 +37,7 @@ Do **not** add a `date:` field; the date comes from the file name.
 
 Plain Markdown (GitHub style):
 
-- **First paragraph** is used as the preview on the blog list, so make it a 1–3 sentence summary.
+- **First paragraph** should stand on its own as a 1–3 sentence summary.
 - Section headings start at `##` (the title is already the top heading; don't use `#`).
 - Code: fenced blocks with a language, e.g. ` ```python `.
 - Links: `[text](https://...)`. Link papers to their arXiv page.

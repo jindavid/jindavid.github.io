@@ -5,7 +5,7 @@ baseurl: ""
 # Turn subpages on or off
 publications: True
 presentations: False
-blog: True
+blog: False
 
 # Language of the website
 lang: en
@@ -35,9 +35,6 @@ theme_settings:
   projects_title: PROJECTS
   recentpubs_title: RECENT PUBLICATIONS
 
-# Pagination
-paginate: 5
-paginate_path: "blog/page:num"
 
 # Build Settings
 exclude:
@@ -57,7 +54,7 @@ exclude:
 sass:
   sass_dir: _sass
   style: :compressed
-plugins: ['jekyll-paginate', 'jekyll/scholar', 'jekyll-seo-tag']
+plugins: ['jekyll/scholar', 'jekyll-seo-tag']
 bootstrap:
   assets: true
 
