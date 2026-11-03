@@ -72,6 +72,7 @@ Contributor · 2021–2022
 
 ### Manuscripts
 
+{% bibliography --query @*[status=preprint] %}
 {% bibliography --query @*[status=submitted] %}
 
 ### Conference and journal publications
