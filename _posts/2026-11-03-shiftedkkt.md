@@ -47,7 +47,7 @@ HyKKT [6] factors H + γJᵀJ for a large γ by Cholesky and recovers the multip
 ShiftedKKT replaces the linear solver of MadNLP. At each factorization it does three things.
 
 1. It equilibrates K by four Ruiz sweeps, giving a scaled matrix WKW with W diagonal.
-2. It factors the scaled matrix in the fixed nested-dissection order. Every pivot d with |d| < ε becomes −ε, whatever its sign, with ε = 1e-10. The factors are exact for a perturbed matrix K + E, where E is diagonal, negative semidefinite and nonzero only at the replaced pivots. The inertia passed to MadNLP is read from the signs of the pivots.
+2. It factors the scaled matrix in the fixed nested-dissection order. Every pivot d with \|d\| < ε becomes −ε, whatever its sign, with ε = 1e-10. The factors are exact for a perturbed matrix K + E, where E is diagonal, negative semidefinite and nonzero only at the replaced pivots. The inertia passed to MadNLP is read from the signs of the pivots.
 3. Each linear solve runs restarted GMRES on the original system Kx = b, right-preconditioned by the factors (applied as W (WKW + E)⁻¹ W). The solve is accepted when the componentwise backward error falls below 1e-6, with at most two cycles of 25 iterations.
 
 Right preconditioning matters here. GMRES then minimizes the residual of Kx = b itself, so the step returned to MadNLP is the Newton step of K and not of K + E, in the spirit of static pivoting followed by Krylov refinement [8]. On PGLib-OPF a linear solve applies the factors 7.3 times on average.
