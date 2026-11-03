@@ -1,0 +1,20 @@
+---
+layout: default
+---
+<header class="home-header">
+  <h1>{{ site.data.profile.username }}</h1>
+</header>
+<div class="introduction">{{ content }}</div>
+{% if site.publications %}
+<section class="research" aria-labelledby="research-title">
+  <h2 id="research-title">Selected research</h2>
+  <section class="research-area" aria-labelledby="optimization-title">
+    <h3 class="research-area-title" id="optimization-title">GPU-accelerated optimization</h3>
+    {% bibliography --template selectedpubstemplate --query @*[selected=true,research_area=optimization] %}
+  </section>
+  <section class="research-area" aria-labelledby="machine-learning-title">
+    <h3 class="research-area-title" id="machine-learning-title">Efficient machine learning</h3>
+    {% bibliography --template selectedpubstemplate --query @*[selected=true,research_area=machine_learning] %}
+  </section>
+</section>
+{% endif %}

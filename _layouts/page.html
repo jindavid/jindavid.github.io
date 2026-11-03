@@ -1,8 +1,7 @@
 ---
 layout: default
 ---
-{% include header.html %}
+<header class="page-header">
+  <a class="site-name" href="{{ '/' | relative_url }}">{{ site.author }}</a>
+</header>
 {{ content }}
-
-<!-- Footer -->
-{% include footer.html %}

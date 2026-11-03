@@ -1,0 +1,7 @@
+---
+---
+<article class="selected-paper">
+  {% capture paper_path %}/publications.html#paper-{{ entry.key | slugify }}{% endcapture %}
+  <h4><a href="{% if entry.url %}{{ entry.url }}{% else %}{{ paper_path | relative_url }}{% endif %}">{{ entry.title }}</a></h4>
+  <p class="metadata">{{ entry.presentation_label | default: entry.note | default: entry.year }}</p>
+</article>

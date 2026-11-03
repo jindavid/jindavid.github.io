@@ -1,9 +1,8 @@
 ---
 layout: page
 ---
-{% include scripts/publications.html %}
-<div id="publications">
-  <section class="bg"></section>
-  <h1 class="title">{{ page.title }}</h1>
-  {% bibliography --group_by year --group_order descending %}
-</div>
+<h1>{{ page.title }}</h1>
+<h2>Manuscripts</h2>
+{% bibliography --query @*[status=submitted] %}
+<h2>Publications</h2>
+{% bibliography --query @*[status=published] %}

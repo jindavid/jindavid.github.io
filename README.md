@@ -1,229 +1,43 @@
-# Grape-Academic-Theme
+# David Jin's personal website
 
-<a href="https://jekyll-themes.com">
-    <img src="https://img.shields.io/badge/featured%20on-JekyllThemes-red.svg" height="20" alt="Jekyll Themes Shield" loading="lazy">
-</a>
+A minimal Jekyll website with a narrow reading column, white background, dark monospaced text, and blue links. The simple layout is inspired by https://ssi.inc/ and uses the requested brighter palette.
 
----
+## Editing
 
-![home](https://chrjabs.github.io/Grape-Academic-Theme/assets/img/portfolio.png)
+- Edit `index.md` for the homepage introduction.
+- Edit `_data/profile.yml` for your name, affiliation, and profile links.
+- Edit `cv.md` for the full CV, based on the supplied LaTeX.
+- Add publications to `_bibliography/publications.bib`. Set `selected = {true}` and `research_area = {optimization}` or `research_area = {machine_learning}` to show a paper in the corresponding homepage research area. Use `status = {submitted}` for manuscripts and `status = {published}` for conference and journal papers. `presentation_label` controls the displayed venue, and `author_marks` preserves the CV's asterisk markers by author position.
+- Add dated Markdown files to `_posts/` with `layout: post` to publish writing.
+- Edit `assets/css/personal.css` for the design.
 
-Welcome to Grape Academic Theme!
-This theme is based on [Grape Theme](https://github.com/naye0ng/Grape-Theme) and modifies it to be more directly applicable as an academic portfolio page.
-It can still include a blog, but that is optional.
+The original theme's demonstration posts, presentation, and hub remain in the source but are excluded from the generated website. The blog is ready for your own posts.
 
-[Demo](https://chrjabs.github.io/Grape-Academic-Theme)
+## Local preview
 
-## Features
-
-Some of these features are optional and can be turned on or off in the `_config.yml` file.
-
-### [Portfolio Homepage](https://chrjabs.github.io/Grape-Academic-Theme)
-
-Portfolio page giving an overview of your research.
-
-### [Publications List](https://chrjabs.github.io/Grape-Academic-Theme/publications)
-
-A optional list of your publications auto-generated from a BibTeX file.
-Additional information can be linked to from the BibTeX file.
-
-### [Presentations List](https://chrjabs.github.io/Grape-Academic-Theme/presentations)
-
-A optional list of your presentations auto-generated for a data file.
-
-### [Blog](https://chrjabs.github.io/Grape-Academic-Theme/blog)
-
-An optional blog for any posts you want to publish.
-
-### [Hub Pages](https://chrjabs.github.io/Grape-Academic-Theme/example-hub)
-
-Hub pages are intended for easy linking in your presentations.
-They collect links and additional information related to your presentation so that you only have to put one link on your slides.
-They can be manually generated or automatically from one of your publication entries.
-
-## Installation and Serving Local Version for Testing
-
-1. Fork and clone the Grape Academic Theme repo
-
-   ```
-   git clone https://github.com/chrjabs/Grape-Academic-Theme.git
-   ```
-
-2. Install Jekyll 
-
-   ```
-   gem install jekyll
-   ```
-
-3. Install the theme's dependencies
-
-   ```
-   bundle install
-   ```
-
-4. Update `_config.yml`, `_data/projects.yml`, `_data/projects.yml` and `_bibliography/publications.bib` with your own settings.
-
-5. Run the Jekyll server
-
-   ```
-   bundle exec jekyll serve
-   ```
-
-## Publishing
-
-Since GitHub changed pages deployment to be based on Actions, Grape-Academic-Theme can be deployed fully automatically.
-This project already contains the necessary GitHub workflow.
-
-These are step-by-step instructions for forking and publishing the theme at your `<username>.github.io` github pages website:
-
-1. For the repository to a repository named `<username>/<username>.github.io`
-2. Go to the settings of the new repository and navigate to the "Pages" tab.
-  There, change the source for github pages to "GitHub Actions".
-3. Clone the repository and go through the installation steps listed above
-4. In `_config.yml`, change the `baseurl` option to an empty string (`""`) to host the webpage in the root of your `github.io` page
-5. Push to GitHub and see the workflow building and publishing your website.
-6. _Wait a couple of minutes_ and the demo content will show up at `<username>.github.io`
-
-## Customizing
-
-Grape-Theme has two great features: the profile section and the project section of the portfolio page. Just by changing `_config.yml` and `projects.yml`, you can use all of these features.
-
-### Feature Settings
-
-The blog, publications, and presentations pages are optional and can be turned on or off in the config file.
-
-### Favicon
-
-Generate your favicons with [realfavicongenerator.net](https://realfavicongenerator.net/) and place them in the root directory.
-The code to include them is already set up in the template.
-
-### Site configuration
-
-```
-baseurl: "{subpath}"
-
-theme_settings :
-  title: {blog title}
+```sh
+bundle install
+bundle exec jekyll serve
 ```
 
-### Profile Settings
+Open http://127.0.0.1:4000/ while the server is running. The CV-based revision is a local demo; it has not been published.
 
-Profile is displayed on the index page, and also experience and skills are displayed on the portfolio page.
-The profile is configured in `_data/profile.yml`.
+## Build
 
-```
-image: assets/img/smile.png
-username: Christoph Jabs
-description: creator of the Grape-Academic-Theme! Grape-Academic-Theme is a modification of the Grape-Theme by naye0ng, making it more suitable as an academic portfolio.
-webpage: https://chrjabs.github.io
-experience:
-  - start: 2017-05-03
-    end: 2018-05-06
-    experience : company name, title
-interests:
-  - Interest 1
-  - Interest 2
-skills: 
-  - skill: HTML5 & CSS
-    value: 85  # Percent value
+```sh
+bundle exec jekyll build
 ```
 
-### Presentations
+## CV PDF
 
-The data for the presentations page can be defined in `data/presentations.yml`.
+The CV page links to `assets/pdf/David-Jin-CV.pdf`. The PDF is generated from the current CV page, including the bibliography, so removed website content stays out of the download. After editing the CV or publications, refresh the PDF with Python and ReportLab installed:
 
-```
-- presentation:
-    title: A nice presentation
-    event: Fancy conference
-    date: 05/2022
-    comment: This is some comment text that can do _Markdown_
-    slides: https://www.google.com # potential link to slides
-- presentation:
-    title: A second presentation
-    event: Another conference
-    date: 03/2022
+```sh
+bundle exec jekyll build
+python3 _scripts/build_cv_pdf.py _site/cv.html assets/pdf/David-Jin-CV.pdf
+bundle exec jekyll build
 ```
 
-### Hub Pages
+The GitHub Pages workflow publishes the `_site/` output. Sites uses the same Jekyll source, built with `--destination dist`, and the private project specified in `.openai/hosting.json`.
 
-For an example on how to configure a hub page, see the `example-hub.md` file.
-
-### Pagination
-
-Defines the number of posts to be shown on one page.
-
-```
-paginate: 5
-```
-
-### Portfolio Settings
-
-![home](https://chrjabs.github.io/Grape-Academic-Theme/assets/img/portfolio.png)
-
-The Project configuration is available in `_data/projects.yml`.
-
-The portfolio page provides projects and detailed views by modal.
-If `modal : False` is selected, modal will not be displayed on site. 
-
-- **print** : 
-  
-  - If `print: True` is selected, it will be displayed on landing page
-  
-- **modal** 
-  
-  - If `modal: True` is selected, modal will be displayed on the Portfolio page
-  
-    ![home](https://chrjabs.github.io/Grape-Academic-Theme/assets/img/modal.png)
-
-```
-print: True
-modal: True  
-```
-
-Add details(link, description) about your projects
-
-```
-url: https://github.com/naye0ng/Grape-Theme # Full URL
-image: "portfolio.png" # path: assets/project/
-date: 2019.06.09 - 2019.07.11
-title: 
-summary: 
-description:  
-# modal contents
-contents:
-  - title:
-    image:      	    
-    description: 
-```
-
-### Colors
-
-You can change colors at once. colors are in `_sass/base/_variable.scss`
-
-## Posts in Grape theme
-
-You can confirm how to draw tags at [here](https://grape-theme.netlify.com/2019/06/08/markdown-and-html.html) and [here](https://grape-theme.netlify.com/2019/06/09/grape-theme-style.html)
-
-### Create a new post
-
-1. Create a `.md` inside `_posts` folder
-   ```
-   2019-07-11-grape-theme.md
-   ```
-
-2. Write the [Front Matter](https://jekyllrb.com/docs/front-matter/) and content in the file.
-   ```
-   ---
-   layout: post
-   title: title
-   subtitle : subtitle
-   tags: [tag1, tag2]
-   author: 
-   comments : 
-   ---
-   ```
-
-## Licence
-
-The theme is available as open source under the terms of the [MIT Licence](https://opensource.org/licenses/MIT).
+This project originally used Grape Academic Theme. Its original MIT license is retained in `LICENSE.txt`.

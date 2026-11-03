@@ -1,23 +1,22 @@
 <!DOCTYPE html>
-<html lang="{{ site.lang }}">
-{% include head.html %}
-{% include scripts/jquery.html %}
-<body>
-  <div class="container">
-    {{ content }}
-  </div>
-</body>
-
-<script type="text/javascript" id="MathJax-script" async
-  src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js">
-</script>
-
-<script>
-  MathJax = {
-    tex: {
-      inlineMath: [['$', '$'], ['`$', '$`']]
-    }
-  };
-</script>
-
+<html lang="{{ site.lang | default: 'en' }}">
+  {% include head.html %}
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <div class="site-shell">
+      <main id="main">{{ content }}</main>
+      <footer class="site-footer">
+        <nav aria-label="Personal links">
+          <a href="{{ '/cv.html' | relative_url }}">CV</a>
+          {% assign social = site.data.profile.social %}
+          {% if social.scholar %}<a href="{{ social.scholar }}">Google Scholar</a>{% endif %}
+          {% if social.github %}<a href="https://github.com/{{ social.github }}">GitHub</a>{% endif %}
+          {% if social.linkedin %}<a href="{{ social.linkedin }}">LinkedIn</a>{% endif %}
+          {% if social.twitter %}<a href="https://twitter.com/{{ social.twitter }}">Twitter</a>{% endif %}
+        </nav>
+        <p class="contact-email">Email: [last name][first name] at mit.edu</p>
+        <p class="copyright">{{ site.author }} &copy; {{ site.time | date: '%Y' }}</p>
+      </footer>
+    </div>
+  </body>
 </html>

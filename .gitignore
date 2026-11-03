@@ -1,0 +1,11 @@
+_site/
+dist/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+.bundle/
+vendor/
+.DS_Store
+.env
+.env.*
+!.env.example

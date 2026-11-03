@@ -11,14 +11,12 @@ blog: True
 lang: en
 
 # Search engine optimization settings
-title: David Jin's Personal Webpage
-tagline: 
-description: 
+title: David Jin
+description: David Jin. Ph.D. student at MIT working on GPU computing, numerical optimization, and efficient machine learning.
 author: David Jin
 twitter:
-  username: DaviJin
-  card: 
-logo: /assets/img/smile.png
+  username: davijin
+  card: summary
 social:
   name: David Jin
   links:
@@ -28,7 +26,7 @@ locale: en_GB
 
 # Page Settings
 theme_settings:
-  title: Grape Academic Theme
+  title: David Jin
 
   experience_title: EXPERIENCE
   interests_title: RESEARCH INTERESTS
@@ -42,6 +40,20 @@ paginate: 5
 paginate_path: "blog/page:num"
 
 # Build Settings
+exclude:
+  - README.md
+  - BLOG_POST_GUIDE.md
+  - LICENSE.txt
+  - grape-theme.gemspec
+  - dist
+  - vendor
+  - .openai
+  - .github
+  - assets/css/main.scss
+  - _posts/2019-06-08-markdown-and-html.md
+  - _posts/2019-06-09-grape-theme-style.md
+  - presentations.md
+  - example-hub.md
 sass:
   sass_dir: _sass
   style: :compressed
@@ -55,12 +67,12 @@ scholar:
   bibliography_template: pubstemplate
   style: apa
   locale: en
-  last_name: Me
-  first_name: [Myself, M.]
+  last_name: Jin
+  first_name: [David, D.]
   sort_by: year,month
   order: descending,ascending
 
-filtered_bibtex_keywords: [abbr, abstract, arxiv, bibtex_show, html, pdf, selected, supp, blog, code, poster, slides, website] # Filter out certain bibtex entry keywords used internally from the bib output
+filtered_bibtex_keywords: [abbr, abstract, arxiv, bibtex_show, html, pdf, selected, supp, blog, code, poster, slides, website, status, author_marks, presentation_label, research_area] # Fields used only for website presentation
 
 academicons:
   version: "1.9.1"
