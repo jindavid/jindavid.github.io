@@ -1,11 +1,11 @@
 ---
 layout: post
-title: "Factor the Inexact System, Solve the Exact One: Nonconvex Interior-Point Methods on GPUs"
-subtitle: "David Jin, Alexis Montoison and Sungho Shin. A short paper accompanying our INFORMS 2026 talk."
+title: "Factor the Inexact System, Solve the Exact One: Nonlinear Interior-Point Methods on GPUs"
+subtitle: "David Jin"
 tags: [optimization, gpu, interior-point, linear-algebra]
 ---
 
-GPU sparse solvers fix the pivot order before they see any values, so on the indefinite KKT matrices of nonconvex interior-point methods they meet tiny pivots that must be perturbed. We factor the perturbed matrix, recover the Newton step of the original one by GMRES, and show that replacing every tiny pivot by a negative number keeps the inertia test of the method valid. In MadNLP on an NVIDIA GPU, the resulting solver, ShiftedKKT, solves all 66 PGLib-OPF cases and all 45 COPS instances, and is the fastest of five solvers on PGLib-OPF.
+GPU sparse solvers fix the pivot order before they see any values, so on the indefinite KKT matrices of nonlinear interior-point methods they meet tiny pivots that must be perturbed. We factor the perturbed matrix, recover the Newton step of the original one by GMRES, and show that replacing every tiny pivot by a negative number keeps the inertia test of the method valid. In MadNLP on an NVIDIA GPU, the resulting solver, ShiftedKKT, solves all 66 PGLib-OPF cases and all 45 COPS instances, and is the fastest of five solvers on PGLib-OPF.
 
 ## 1. Introduction
 
