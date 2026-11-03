@@ -30,27 +30,27 @@ K = [ H   Jᵀ ]
     [ J   0  ]
 ```
 
-where H is the Hessian of the Lagrangian plus the barrier terms and J is the constraint Jacobian. Let Z be a basis of the null space of J. The step is a descent direction for the barrier problem when ZᵀHZ is positive definite, and IPOPT [3] and MadNLP read this from the inertia of K, the numbers of its positive, zero and negative eigenvalues. If the factorization reports (n, 0, m), the step is accepted. Otherwise a multiple δ of the identity is added to H and K is factored again. The test rests on a classical identity [4]. If J has rank r, the number of positive eigenvalues of K equals r plus the number of positive eigenvalues of ZᵀHZ, so K has n positive eigenvalues exactly when ZᵀHZ is positive definite.
+where H is the Hessian of the Lagrangian plus the barrier terms and J is the constraint Jacobian. Let Z be an orthonormal basis of the null space of J. When ZᵀHZ is positive definite, the quadratic model behind the step has positive curvature along the constraints. At an iterate that satisfies the constraints, this makes the step a descent direction for the barrier objective, and in general it is the condition the line search of IPOPT relies on. IPOPT [3] and MadNLP read it from the inertia of K, the numbers of its positive, zero and negative eigenvalues. If the factorization reports (n, 0, m), the inertia test passes. Otherwise a multiple δ of the identity is added to H and K is factored again, and in what follows H includes this term. The test rests on a classical identity [4]. If J has rank r, the number of positive eigenvalues of K equals r plus the number of positive eigenvalues of ZᵀHZ, so K has n positive eigenvalues exactly when ZᵀHZ is positive definite. The full inertia (n, 0, m) also forces J to have full row rank.
 
 ### 2.2 Static factorization on a GPU
 
-An LDLᵀ factorization eliminates one variable at a time and divides by a diagonal entry, the pivot. Dynamic pivoting decides the order during the factorization. When the next pivot is tiny it swaps in a larger entry, and if no good pivot is available it delays the column to a later front. This works for every indefinite matrix, but each decision depends on the numbers computed so far, which maps badly onto a GPU.
+An LDLᵀ factorization eliminates one variable at a time and divides by a diagonal entry, the pivot. Dynamic pivoting decides the order during the factorization. When the next pivot is tiny it picks a larger 1×1 pivot or a 2×2 block instead, and if no good pivot is available it delays the column to a later front. This works for every indefinite matrix, but each decision depends on the numbers computed so far, which maps badly onto a GPU.
 
-A GPU solver computes the order once from the sparsity pattern with an ordering such as AMD or METIS, does the symbolic analysis once, and then runs the same parallel kernels at every iteration. A fixed order is safe for a quasi-definite matrix, one with a positive definite top-left block and a negative definite bottom-right block [5]. The KKT matrix of a nonconvex program is neither, so tiny pivots appear.
+A GPU solver computes the order once from the sparsity pattern with an ordering such as AMD or METIS, does the symbolic analysis once, and then runs the same parallel kernels at every iteration. A quasi-definite matrix, one with a positive definite top-left block and a negative definite bottom-right block, can be factored in any symmetric order without a zero pivot [5]. The KKT matrix, with an indefinite H and a zero bottom-right block, is not quasi-definite, so a pivot in the fixed order can be zero or tiny.
 
 ### 2.3 Condensed systems
 
-HyKKT [6] factors H + γJᵀJ for a large γ by Cholesky and recovers the multipliers by conjugate gradients, which requires J to have full row rank. LiftedKKT [7] relaxes each equality constraint into two inequalities, eliminates the slacks and factors a condensed matrix by Cholesky. It therefore solves a slightly perturbed problem. Both avoid pivoting altogether, and both work well on many problems [2]. Our question is whether the augmented K can be factored directly.
+HyKKT [6] factors H + γJᵀJ for a large γ by Cholesky and recovers the multipliers by conjugate gradients. This needs ZᵀHZ to be positive definite and J to have full row rank. LiftedKKT [7] relaxes each equality constraint into two inequalities, eliminates the slacks and factors a condensed matrix by Cholesky. It therefore solves a slightly perturbed problem. Both avoid pivoting altogether, and both work well on many problems [2]. Our question is whether the augmented K can be factored directly.
 
 ## 3. Method
 
 ShiftedKKT replaces the linear solver of MadNLP. At each factorization it does three things.
 
 1. It equilibrates K by four Ruiz sweeps, giving a scaled matrix WKW with W diagonal.
-2. It factors the scaled matrix in the fixed nested-dissection order. Every pivot d with \|d\| < ε becomes −ε, whatever its sign, with ε = 1e-10. The factors are exact for a perturbed matrix K + E, where E is diagonal, negative semidefinite and nonzero only at the replaced pivots. The inertia passed to MadNLP is read from the signs of the pivots.
-3. Each linear solve runs restarted GMRES on the original system Kx = b, right-preconditioned by the factors (applied as W (WKW + E)⁻¹ W). The solve is accepted when the componentwise backward error falls below 1e-6, with at most two cycles of 25 iterations.
+2. It factors the scaled matrix in the fixed nested-dissection order. Every pivot d with \|d\| < ε becomes −ε, whatever its sign, with ε = 1e-10. In exact arithmetic and scaled back by W, the factors are exact for a perturbed matrix K + E, where E is diagonal, negative semidefinite and nonzero only at the replaced pivots. The inertia passed to MadNLP is read from the signs of the pivots, and it is the inertia of K + E because the scaling does not change it.
+3. Each linear solve runs restarted GMRES on the original system Kx = b, right-preconditioned by the inverse of K + E, which the factors and W apply. The solve is accepted when the componentwise backward error falls below 1e-6, with at most two cycles of 25 iterations.
 
-Right preconditioning matters here. GMRES then minimizes the residual of Kx = b itself, so the step returned to MadNLP is the Newton step of K and not of K + E, in the spirit of static pivoting followed by Krylov refinement [8]. On PGLib-OPF a linear solve applies the factors 7.3 times on average.
+Right preconditioning matters here. Within each restart cycle GMRES then minimizes the residual of Kx = b itself, so the step returned to MadNLP solves the original system up to the backward-error tolerance, not the system with K + E, in the spirit of static pivoting followed by Krylov refinement [8]. On PGLib-OPF a linear solve applies the factors 7.3 times on average.
 
 ![The factors of the perturbed matrix precondition GMRES on the original KKT system](/assets/img/shiftedkkt-fig1.png)
 
@@ -68,13 +68,13 @@ The inertia that MadNLP reads now belongs to K + E. The question is which pertur
 | primal block, negative | ZᵀHZ ≻ 0 |
 | primal block, positive, at most θ | ZᵀHZ ≻ −θI |
 | dual block, negative | ZᵀHZ ≻ 0 |
-| dual block, positive | nothing |
+| dual block, positive | no curvature guarantee |
 
 **Downward perturbations are safe.** Suppose E ⪯ 0 and K + E has n positive eigenvalues. Since K = (K + E) − E ⪰ K + E, Weyl's inequality gives every eigenvalue of K at least as large as the corresponding eigenvalue of K + E. So K also has at least n positive eigenvalues, and by the identity of Section 2.1, ZᵀHZ is positive definite. A positive primal perturbation of size at most θ shifts H by at most θ, which explains the third row.
 
-**A positive dual perturbation is not.** Take one variable and one constraint whose Jacobian row is zero, with H = −h for some h > 0. Then Z spans the whole space and ZᵀHZ = −h < 0. The matrix K has the diagonal entries −h and 0. Replacing the zero pivot by +ε gives the inertia (1, 0, 1), which is exactly (n, 0, m), and the test accepts a direction of negative curvature −h, however large h is.
+**A positive dual perturbation is not.** Take one variable and one constraint whose Jacobian row is zero, with H = −h for some h > 0. Then Z spans the whole space and ZᵀHZ = −h < 0. The matrix K has the diagonal entries −h and 0. Replacing the zero pivot by +ε gives the inertia (1, 0, 1), which is exactly (n, 0, m), so the test passes despite the reduced curvature −h, however large h is. The same happens with a Jacobian of full row rank and an arbitrarily small ε, for suitable H.
 
-This is the case that standard static pivoting gets wrong. Static pivoting keeps the sign of a small pivot and turns an exact zero into +ε [9]. In a KKT matrix, a constraint row eliminated before its variables has the pivot 0, its diagonal entry, and static pivoting makes it positive. ShiftedKKT sends every tiny pivot down instead, so E ⪯ 0 and the first row of the argument applies. No dual shift and no sign test are needed.
+This is the case that standard static pivoting gets wrong. Static pivoting keeps the sign of a small pivot and turns an exact zero into +ε [9]. In a KKT matrix, a constraint row eliminated before any of its variables has the pivot 0, its diagonal entry, and static pivoting makes it positive. ShiftedKKT sends every tiny pivot down instead, so E ⪯ 0 and the first row of the argument applies. No dual shift and no sign test are needed.
 
 The sign makes a difference in practice. We ran the solver on the 66 PGLib-OPF cases with three replacement rules and everything else unchanged, without the dual shift and with left-preconditioned GMRES.
 
@@ -153,7 +153,7 @@ ShiftedKKT solves 1,195 problems (1,175 at the optimal level), LiftedKKT 1,197 (
 
 ## 6. Conclusion
 
-On a GPU the pivot order of the KKT factorization is fixed before the values are known, so tiny pivots have to be perturbed. ShiftedKKT accepts this. It factors the inexact matrix, solves the exact system by GMRES preconditioned with those factors, and replaces every tiny pivot by −ε so that the inertia test still certifies descent. The augmented system then becomes a practical choice on the GPU, as robust as IPOPT on PGLib-OPF and as LiftedKKT on COPS, without a rank assumption or a relaxed problem.
+On a GPU the pivot order of the KKT factorization is fixed before the values are known, so tiny pivots have to be perturbed. ShiftedKKT accepts this. It factors the inexact matrix, solves the exact system by GMRES preconditioned with those factors, and replaces every tiny pivot by −ε so that the inertia test still certifies positive curvature along the constraints. The augmented system then becomes a practical choice on the GPU, as robust as IPOPT on PGLib-OPF and as LiftedKKT on COPS, without a relaxed problem, and its curvature guarantee needs no rank assumption.
 
 The solver runs in Julia. The interior-point method is [MadNLP.jl](https://github.com/MadNLP/MadNLP.jl), GMRES comes from [Krylov.jl](https://github.com/JuliaSmoothOptimizers/Krylov.jl), and the models are evaluated on the GPU by [ExaModels.jl](https://github.com/exanauts/ExaModels.jl). The ShiftedKKT code will be released with the paper.
 
